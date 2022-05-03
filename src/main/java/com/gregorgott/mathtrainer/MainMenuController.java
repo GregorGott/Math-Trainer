@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,17 +25,21 @@ import java.util.ResourceBundle;
  * @since 2022-05-01
  */
 public class MainMenuController implements Initializable {
-    private final int BUTTON_WIDTH = 150;
-    private final int BUTTON_HEIGHT = 150;
     @FXML
     private FlowPane flowPane;
     private Lessons lessons;
 
     /**
-     * Add a lesson button to the flow pane.
+     * Add all lesson buttons to the flow pane.
      */
     private void createLessonButtons() {
-        flowPane.getChildren().add(basicOperationsButton());
+        Button[] lessonButtons = new Button[1];
+        lessonButtons[0] = newLessonButton("Basic Operations", "Train your math basics with simple questions.",
+                Lessons.BASIC_OPERATIONS);
+
+        for (Button button : lessonButtons) {
+            flowPane.getChildren().add(button);
+        }
     }
 
     /**
@@ -43,21 +48,25 @@ public class MainMenuController implements Initializable {
      *
      * @return The lesson button.
      */
-    private Button basicOperationsButton() {
-        Label label1 = new Label("Basic Operations");
-        Label label2 = new Label("Train your math basics with simple questions");
+    private Button newLessonButton(String headline, String contentText, Lessons lessons) {
+        Label label1 = new Label(headline);
+        label1.setFont(new Font(label1.getFont().getFamily(), 18));
+        label1.setWrapText(true);
+        Label label2 = new Label(contentText);
         label2.setWrapText(true);
 
         VBox vBox = new VBox(label1, label2);
         vBox.setPadding(new Insets(10));
-        vBox.setSpacing(10);
+        vBox.setSpacing(15);
 
         Button button = new Button();
+        int BUTTON_WIDTH = 150;
         button.setPrefWidth(BUTTON_WIDTH);
+        int BUTTON_HEIGHT = 150;
         button.setPrefHeight(BUTTON_HEIGHT);
         button.setGraphic(vBox);
         button.setOnAction(event -> {
-            lessons = Lessons.BASIC_OPERATIONS;
+            this.lessons = lessons;
             loadLessonSettings();
         });
 
