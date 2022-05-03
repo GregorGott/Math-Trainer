@@ -1,5 +1,6 @@
 package com.gregorgott.mathtrainer.lessonPanes;
 
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -11,8 +12,8 @@ import javafx.scene.layout.VBox;
  * Every lesson has his own settings. These settings are set in this class.
  *
  * @author GregorGott
- * @version 0.0.1
- * @since 2022-05-01
+ * @version 0.0.2
+ * @since 2022-05-03
  */
 public class LessonSettingsPanes {
 
@@ -99,14 +100,16 @@ public class LessonSettingsPanes {
     /**
      * The settings node for the basic operations' lesson. This Node contains checkboxes for all types of operators,
      * text field for number of rounds, min number, max number and a checkbox to allow decimals.
+     *
      * @return A Node with a VBox with all text fields and checkboxes.
      */
     public Node basicOperationsSettings() {
         Label operatorsLabel = new Label("Operators");
         operatorsLabel.setPrefWidth(130);
-        HBox operatorsHBox = new HBox(operatorsLabel, additionCheckBox, subtractionCheckBox, multiplicationCheckBox,
+        HBox operatorsCheckBoxesHBox = new HBox(additionCheckBox, subtractionCheckBox, multiplicationCheckBox,
                 divisionCheckBox);
-        operatorsHBox.setSpacing(10);
+        operatorsCheckBoxesHBox.setSpacing(10);
+        HBox operatorsHBox = new HBox(operatorsLabel, operatorsCheckBoxesHBox);
 
         Label numberOfRoundsLabel = new Label("Number of rounds");
         numberOfRoundsLabel.setPrefWidth(130);
@@ -126,6 +129,7 @@ public class LessonSettingsPanes {
 
         VBox vBox = new VBox(operatorsHBox, numberOfRoundsHBox, minNumberHBox, maxNumberHBox, otherSettingsHBox);
         vBox.setSpacing(20);
+        vBox.setPadding(new Insets(20));
 
         return vBox;
     }

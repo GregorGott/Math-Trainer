@@ -1,15 +1,21 @@
 package com.gregorgott.mathtrainer;
 
 import com.gregorgott.mathtrainer.lessonPanes.LessonPanes;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -18,8 +24,8 @@ import java.util.Objects;
  * and a next button at the bottom.
  *
  * @author GregorGott
- * @version 0.0.2
- * @since 2022-05-02
+ * @version 0.0.3
+ * @since 2022-05-03
  */
 public class LessonController {
     @FXML
@@ -58,6 +64,14 @@ public class LessonController {
 
         checkButton = new Button("Check");
         checkButton.setOnAction(event -> checkInput());
+    }
+
+    public boolean isOperatorGiven() {
+        if (lessons == Lessons.BASIC_OPERATIONS) {
+            return operators.size() > 0;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -210,6 +224,29 @@ public class LessonController {
                 textField.setDisable(false);
                 checkButton.setDisable(false);
             }
+        }
+    }
+
+    /**
+     * Cancel the lesson and show the settings Scene of the lesson again.
+     * @param event Get an ActionEvent of the Button to switch the Scene.
+     */
+    public void cancelLesson(ActionEvent event) {
+        try {
+            LessonSettingsController lessonSettingsController;
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("lesson-settings-scene.fxml"));
+            Parent root = fxmlLoader.load();
+
+            lessonSettingsController = fxmlLoader.getController();
+            lessonSettingsController.setLesson(lessons);
+
+            Scene scene = new Scene(root);
+
+            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
