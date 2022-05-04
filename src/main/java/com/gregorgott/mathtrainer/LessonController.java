@@ -24,8 +24,8 @@ import java.util.Objects;
  * and a next button at the bottom.
  *
  * @author GregorGott
- * @version 0.0.3
- * @since 2022-05-03
+ * @version 0.0.4
+ * @since 2022-05-04
  */
 public class LessonController {
     @FXML
@@ -61,6 +61,7 @@ public class LessonController {
 
         questionAnswered = false;
         roundCounter = 1;
+        points = 0;
 
         checkButton = new Button("Check");
         checkButton.setOnAction(event -> checkInput());
@@ -206,12 +207,10 @@ public class LessonController {
      * This method is called if the 'Next' button in the Scene is clicked. It resets the textField and loads a
      * new question in the border pane.
      */
-    public void nextQuestion() {
+    public void nextQuestion(ActionEvent event) throws IOException {
         if (questionAnswered) {
-            System.out.println(numberOfRounds);
-            System.out.println(roundCounter);
             if (numberOfRounds == roundCounter) {
-                System.out.println("Finished");
+                showResults(event);
             } else {
                 roundCounter++;
                 setRoundLabel();
@@ -225,6 +224,25 @@ public class LessonController {
                 checkButton.setDisable(false);
             }
         }
+    }
+
+    /**
+     * Show results with points and mistakes in the result Scene.
+     * @param event         An ActionEvent to get the Scene.
+     * @throws IOException  Exception when FXML file is not loadable.
+     * @since 0.0.4
+     */
+    private void showResults(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("result-scene.fxml"));
+        Parent root = fxmlLoader.load();
+
+        ResultController resultController = fxmlLoader.getController();
+        resultController.setPoints(points, numberOfRounds - points);
+
+        Scene scene = new Scene(root);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
     }
 
     /**
