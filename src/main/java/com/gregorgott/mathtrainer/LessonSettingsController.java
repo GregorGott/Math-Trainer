@@ -19,8 +19,8 @@ import java.util.ArrayList;
  * The content of the Scene varies between the different types of lessons.
  *
  * @author GregorGott
- * @version 0.0.2
- * @since 2022-05-03
+ * @version 0.0.3
+ * @since 2022-05-07
  */
 public class LessonSettingsController {
     private final LessonSettingsPanes lessonSettingsPanes;
@@ -81,6 +81,8 @@ public class LessonSettingsController {
      * Start the lesson by loading the lesson Scene FXML file and set various variables.
      *
      * @param event Is the button event to replace the current scene (switch Scenes).
+     *
+     * @since 0.0.1
      */
     public void start(ActionEvent event) {
         try {
@@ -94,6 +96,7 @@ public class LessonSettingsController {
             lessonController.setNumberOfRounds(lessonSettingsPanes.getNumberOfRounds());
             lessonController.setNumberRange(lessonSettingsPanes.getMaxNumber(), lessonSettingsPanes.getMinNumber());
             lessonController.setOperators(operators);
+            lessonController.setDecimals(lessonSettingsPanes.isDecimals());
 
             if (lessonController.isOperatorGiven()) {
                 lessonController.loadLesson();

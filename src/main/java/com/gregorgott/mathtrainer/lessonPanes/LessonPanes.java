@@ -9,21 +9,23 @@ import java.util.Random;
 
 /**
  * Every lesson has his own node. These nodes are defined in this class.
- * This class also calculates the result, that the class which initialice this class only needs to compare a value with
+ * This class also calculates the result, that the class which initialize this class only needs to compare a value with
  * the return value of getResult().
  *
  * @author GregorGott
- * @version 0.0.1
- * @since 2022-05-01
+ * @version 0.0.2
+ * @since 2022-05-07
  */
 public class LessonPanes {
 
     private final Random random;
     private ArrayList<Operator> operators;
-    private int result;
+    private double result;
 
     /**
      * Initialize variables.
+     *
+     * @since 0.0.1
      */
     public LessonPanes() {
         random = new Random();
@@ -34,13 +36,17 @@ public class LessonPanes {
      * Returns the result of a question.
      *
      * @return The result of a question as int.
+     *
+     * @since 0.0.1
      */
-    public int getResult() {
+    public double getResult() {
         return result;
     }
 
     /**
      * @return A random operator from the operators ArrayList.
+     *
+     * @since 0.0.1
      */
     private Operator getRandomOperator() {
         return operators.get(random.nextInt(operators.size()));
@@ -52,14 +58,25 @@ public class LessonPanes {
      * @param operators The operators that may be used.
      * @param min       The min number.
      * @param max       The max number.
+     * @param decimals  If decimal numbers are allowed.
      * @return A node with a random generated question.
+     *
+     * @since 0.0.1
      */
-    public Node basicOperationsLesson(ArrayList<Operator> operators, int min, int max) {
+    public Node basicOperationsLesson(ArrayList<Operator> operators, int min, int max, boolean decimals) {
         this.operators = operators;
 
         // Generate two random numbers
-        int number1 = random.nextInt(max - min) + min;
-        int number2 = random.nextInt(max - min) + min;
+        double number1;
+        double number2;
+
+        if (decimals) {
+            number1 = Math.round((min + (max - min) * random.nextDouble()) * 100.0) / 100.0;
+            number2 = Math.round((min + (max - min) * random.nextDouble()) * 100.0) / 100.0;
+        } else {
+            number1 = random.nextInt(max - min) + min;
+            number2 = random.nextInt(max - min) + min;
+        }
 
         // Get a random operator
         Operator operator = getRandomOperator();

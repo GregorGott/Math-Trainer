@@ -30,7 +30,7 @@ import java.util.*;
  * and a next button at the bottom.
  *
  * @author GregorGott
- * @version 0.0.5
+ * @version 0.0.6
  * @since 2022-05-07
  */
 public class LessonController implements Initializable {
@@ -55,6 +55,7 @@ public class LessonController implements Initializable {
     private int points;
 
     private boolean questionAnswered;
+    private boolean decimals;
 
     private ArrayList<Operator> operators;
 
@@ -120,6 +121,16 @@ public class LessonController implements Initializable {
     }
 
     /**
+     * Set if decimal numbers are allowed.
+     * @param b A boolean if decimal numbers are allowed.
+     *
+     * @since 0.0.6
+     */
+    public void setDecimals(boolean b) {
+        this.decimals = b;
+    }
+
+    /**
      * Load the centre of the border pane with a correct lesson question, a text field and a button to check
      * the entered input.
      */
@@ -130,7 +141,7 @@ public class LessonController implements Initializable {
         Node lessonNode = null;
 
         switch (lessons) {
-            case BASIC_OPERATIONS -> lessonNode = lessonPanes.basicOperationsLesson(operators, min, max);
+            case BASIC_OPERATIONS -> lessonNode = lessonPanes.basicOperationsLesson(operators, min, max, decimals);
         }
 
         lessonHBox = new HBox(lessonNode, textField, checkButton);
