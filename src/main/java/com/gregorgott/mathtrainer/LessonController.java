@@ -1,14 +1,19 @@
 package com.gregorgott.mathtrainer;
 
 import com.gregorgott.mathtrainer.lessonPanes.LessonPanes;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -16,30 +21,31 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.net.URL;
+import java.time.LocalTime;
+import java.util.*;
 
 /**
  * The LessonController controls the main round system. It displays the question in the centre, a progress bar on the top
  * and a next button at the bottom.
  *
  * @author GregorGott
- * @version 0.0.4
- * @since 2022-05-04
+ * @version 0.0.5
+ * @since 2022-05-07
  */
-public class LessonController {
+public class LessonController implements Initializable {
+    private final LessonPanes lessonPanes;
+    private final TextField textField;
+    private final Button checkButton;
     @FXML
     private BorderPane borderPane;
     @FXML
     private Label roundLabel;
     @FXML
+    private Label timerLabel;
+    @FXML
     private ProgressBar progressBar;
-
     private HBox lessonHBox;
-    private final LessonPanes lessonPanes;
-    private final TextField textField;
-    private final Button checkButton;
-
     private Lessons lessons;
 
     private int numberOfRounds;
@@ -132,6 +138,44 @@ public class LessonController {
         lessonHBox.setSpacing(15);
 
         borderPane.setCenter(lessonHBox);
+    }
+
+    /**
+     * Show a timer in the top of the Scene with seconds, minutes and hours.
+     *
+     * @since 0.0.5
+     */
+    private void startTimer() {
+        TimerTask timerTask = new TimerTask() {
+
+            LocalTime timerTimer;
+
+            int sec = 0;
+            int min = 0;
+            int hrs = 0;
+
+            @Override
+            public void run() {
+                sec++;
+
+                if (sec == 60) {
+                    min++;
+                    sec = 0;
+                }
+
+                if (min == 60) {
+                    hrs++;
+                    min = 0;
+                }
+
+                timerTimer = LocalTime.of(hrs, min, sec);
+
+                Platform.runLater(() -> timerLabel.setText("Timer: " + timerTimer));
+            }
+        };
+
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(timerTask, 0, 1000);
     }
 
     /**
@@ -228,8 +272,9 @@ public class LessonController {
 
     /**
      * Show results with points and mistakes in the result Scene.
-     * @param event         An ActionEvent to get the Scene.
-     * @throws IOException  Exception when FXML file is not loadable.
+     *
+     * @param event An ActionEvent to get the Scene.
+     * @throws IOException Exception when FXML file is not loadable.
      * @since 0.0.4
      */
     private void showResults(ActionEvent event) throws IOException {
@@ -247,6 +292,7 @@ public class LessonController {
 
     /**
      * Cancel the lesson and show the settings Scene of the lesson again.
+     *
      * @param event Get an ActionEvent of the Button to switch the Scene.
      */
     public void cancelLesson(ActionEvent event) {
@@ -261,10 +307,15 @@ public class LessonController {
 
             Scene scene = new Scene(root);
 
-            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        startTimer();
     }
 }
