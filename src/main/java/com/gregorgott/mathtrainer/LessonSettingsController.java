@@ -19,8 +19,8 @@ import java.util.ArrayList;
  * The content of the Scene varies between the different types of lessons.
  *
  * @author GregorGott
- * @version 0.0.3
- * @since 2022-05-07
+ * @version 0.0.4
+ * @since 2022-05-14
  */
 public class LessonSettingsController {
     private final LessonSettingsPanes lessonSettingsPanes;
@@ -84,12 +84,11 @@ public class LessonSettingsController {
      *
      * @since 0.0.1
      */
-    public void start(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("lesson-scene.fxml"));
-            Parent root = fxmlLoader.load();
+    public void start(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("lesson-scene.fxml"));
+        Parent root = fxmlLoader.load();
 
-            setOperators();
+        setOperators();
 
             LessonController lessonController = fxmlLoader.getController();
             lessonController.setLesson(lessons);
@@ -98,23 +97,37 @@ public class LessonSettingsController {
             lessonController.setOperators(operators);
             lessonController.setDecimals(lessonSettingsPanes.isDecimals());
 
-            if (lessonController.isOperatorGiven()) {
-                lessonController.loadLesson();
+        if (lessonController.isOperatorGiven()) {
+            lessonController.loadLesson();
 
-                Scene scene = new Scene(root);
+            Scene scene = new Scene(root);
 
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-            } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Math Trainer");
-                alert.setHeaderText("Please select operators.");
-                alert.setContentText("Math Trainer can not start a lesson when you do not select operators.");
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Math Trainer");
+            alert.setHeaderText("Please select operators.");
+            alert.setContentText("Math Trainer can not start a lesson when you do not select operators.");
 
-                alert.show();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            alert.show();
         }
+    }
+
+    /**
+     * Is called when the back button is pushed. Then show the main menu again.
+     * @param event Get an action event from the button to switch the Scene.
+     * @throws IOException If the FXML file is not found.
+     *
+     * @since 0.0.4
+     */
+    public void back(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("main-menu-scene.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
     }
 }
