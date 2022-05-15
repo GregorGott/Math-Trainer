@@ -10,10 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -30,8 +27,8 @@ import java.util.*;
  * and a next button at the bottom.
  *
  * @author GregorGott
- * @version 0.0.6
- * @since 2022-05-07
+ * @version 0.0.7
+ * @since 2022-05-15
  */
 public class LessonController implements Initializable {
     private final LessonPanes lessonPanes;
@@ -45,6 +42,8 @@ public class LessonController implements Initializable {
     private Label timerLabel;
     @FXML
     private ProgressBar progressBar;
+    @FXML
+    private Button nextButton;
     private HBox lessonHBox;
     private Lessons lessons;
 
@@ -78,7 +77,7 @@ public class LessonController implements Initializable {
         if (lessons == Lessons.BASIC_OPERATIONS) {
             return operators.size() > 0;
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -122,8 +121,8 @@ public class LessonController implements Initializable {
 
     /**
      * Set if decimal numbers are allowed.
-     * @param b A boolean if decimal numbers are allowed.
      *
+     * @param b A boolean if decimal numbers are allowed.
      * @since 0.0.6
      */
     public void setDecimals(boolean b) {
@@ -137,6 +136,8 @@ public class LessonController implements Initializable {
     public void loadLesson() {
         setRoundLabel();
         setProgressBar();
+        nextButton.setDisable(true);
+
         // The correct lesson question as node
         Node lessonNode = null;
 
@@ -196,14 +197,24 @@ public class LessonController implements Initializable {
         // Check if the text field has content
         if (!textField.getText().isEmpty()) {
             questionAnswered = true;
+            nextButton.setDisable(false);
 
             // Get the text of the text field as int
             // Check if the input is the correct result
-            if (Double.parseDouble(textField.getText()) == lessonPanes.getResult()) {
-                points++;
-                correctAnswer();
-            } else {
-                wrongAnswer();
+            try {
+                if (Double.parseDouble(textField.getText()) == lessonPanes.getResult()) {
+                    points++;
+                    correctAnswer();
+                } else {
+                    wrongAnswer();
+                }
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Please enter a valid number.");
+                alert.setContentText("If you want to write decimals, please use dots instead of commas.");
+
+                alert.show();
             }
         }
     }

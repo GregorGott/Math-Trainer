@@ -4,7 +4,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -12,14 +13,14 @@ import javafx.scene.layout.VBox;
  * Every lesson has his own settings. These settings are set in this class.
  *
  * @author GregorGott
- * @version 0.0.2
- * @since 2022-05-03
+ * @version 0.0.3
+ * @since 2022-05-15
  */
 public class LessonSettingsPanes {
-
-    private final TextField minNumberTextField;
-    private final TextField maxNumberTextField;
-    private final TextField numberOfRoundsTextField;
+    private final Spinner<Integer> minNumberSpinner;
+    private final Spinner<Integer> maxNumberSpinner;
+    private final Spinner<Integer> numberOfRoundsSpinner;
+    private final Spinner<Integer> maxExponentSpinner;
     private final CheckBox additionCheckBox;
     private final CheckBox subtractionCheckBox;
     private final CheckBox multiplicationCheckBox;
@@ -30,9 +31,21 @@ public class LessonSettingsPanes {
      * Initialize the text fields with default values and initialize the checkboxes with text.
      */
     public LessonSettingsPanes() {
-        numberOfRoundsTextField = new TextField("20");
-        minNumberTextField = new TextField("0");
-        maxNumberTextField = new TextField("100");
+        numberOfRoundsSpinner = new Spinner<>();
+        numberOfRoundsSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 20));
+        numberOfRoundsSpinner.setEditable(true);
+
+        minNumberSpinner = new Spinner<>();
+        minNumberSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-Integer.MAX_VALUE, Integer.MAX_VALUE, 0));
+        minNumberSpinner.setEditable(true);
+
+        maxNumberSpinner = new Spinner<>();
+        maxNumberSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-Integer.MAX_VALUE, Integer.MAX_VALUE, 100));
+        maxNumberSpinner.setEditable(true);
+
+        maxExponentSpinner = new Spinner<>();
+        maxExponentSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 2));
+        maxExponentSpinner.setEditable(true);
 
         additionCheckBox = new CheckBox("Addition");
         subtractionCheckBox = new CheckBox("Subtraction");
@@ -42,24 +55,24 @@ public class LessonSettingsPanes {
     }
 
     /**
-     * @return The min number from the minNumberTextField as text.
+     * @return The min number from the minNumberTextField as int.
      */
     public int getMinNumber() {
-        return Integer.parseInt(minNumberTextField.getText());
+        return minNumberSpinner.getValue();
     }
 
     /**
-     * @return The max number from the maxNumberTextField as text.
+     * @return The max number from the maxNumberTextField as int.
      */
     public int getMaxNumber() {
-        return Integer.parseInt(maxNumberTextField.getText());
+        return maxNumberSpinner.getValue();
     }
 
     /**
-     * @return The number of rounds from the numberOfRoundsTextField as Text.
+     * @return The number of rounds from the numberOfRoundsTextField as int.
      */
     public int getNumberOfRounds() {
-        return Integer.parseInt(numberOfRoundsTextField.getText());
+        return numberOfRoundsSpinner.getValue();
     }
 
     /**
@@ -101,7 +114,7 @@ public class LessonSettingsPanes {
      * The settings node for the basic operations' lesson. This Node contains checkboxes for all types of operators,
      * text field for number of rounds, min number, max number and a checkbox to allow decimals.
      *
-     * @return A Node with a VBox with all text fields and checkboxes.
+     * @return A Node as a VBox with all text fields and checkboxes.
      */
     public Node basicOperationsSettings() {
         Label operatorsLabel = new Label("Operators");
@@ -113,15 +126,15 @@ public class LessonSettingsPanes {
 
         Label numberOfRoundsLabel = new Label("Number of rounds");
         numberOfRoundsLabel.setPrefWidth(130);
-        HBox numberOfRoundsHBox = new HBox(numberOfRoundsLabel, numberOfRoundsTextField);
+        HBox numberOfRoundsHBox = new HBox(numberOfRoundsLabel, numberOfRoundsSpinner);
 
         Label minNumberLabel = new Label("Min number");
         minNumberLabel.setPrefWidth(130);
-        HBox minNumberHBox = new HBox(minNumberLabel, minNumberTextField);
+        HBox minNumberHBox = new HBox(minNumberLabel, minNumberSpinner);
 
         Label maxNumberLabel = new Label("Max number");
         maxNumberLabel.setPrefWidth(130);
-        HBox maxNumberHBox = new HBox(maxNumberLabel, maxNumberTextField);
+        HBox maxNumberHBox = new HBox(maxNumberLabel, maxNumberSpinner);
 
         Label otherSettingsLabel = new Label("Other settings");
         otherSettingsLabel.setPrefWidth(130);

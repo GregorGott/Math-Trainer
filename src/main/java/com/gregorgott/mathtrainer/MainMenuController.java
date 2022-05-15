@@ -21,8 +21,8 @@ import java.util.ResourceBundle;
  * In the main menu the user can select between different lessons. Every lesson is a big button in a flow pane.
  *
  * @author GregorGott
- * @version 0.0.1
- * @since 2022-05-01
+ * @version 0.0.2
+ * @since 2022-05-15
  */
 public class MainMenuController implements Initializable {
     @FXML
@@ -95,6 +95,9 @@ public class MainMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        flowPane.setPadding(new Insets(10));
+        flowPane.setHgap(10);
+        flowPane.setVgap(10);
         createLessonButtons();
     }
 }
