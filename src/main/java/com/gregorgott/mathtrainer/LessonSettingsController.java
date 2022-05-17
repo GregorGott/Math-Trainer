@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -19,18 +20,22 @@ import java.util.ArrayList;
  * The content of the Scene varies between the different types of lessons.
  *
  * @author GregorGott
- * @version 0.0.4
- * @since 2022-05-14
+ * @version 0.0.5
+ * @since 2022-05-17
  */
 public class LessonSettingsController {
     private final LessonSettingsPanes lessonSettingsPanes;
     private final ArrayList<Operator> operators;
     @FXML
     private BorderPane borderPane;
+    @FXML
+    private Label headerLabel;
     private Lessons lessons;
 
     /**
      * Initialize variables.
+     *
+     * @since 0.0.1
      */
     public LessonSettingsController() {
         operators = new ArrayList<>();
@@ -41,23 +46,35 @@ public class LessonSettingsController {
      * Set the lesson to show the correct settings pane in the center.
      *
      * @param lessons Is the selected lesson in the main menu.
+     * @since 0.0.1
      */
     public void setLesson(Lessons lessons) {
         this.lessons = lessons;
-        setBorderPaneCenter();
+        setBorderPane();
     }
 
     /**
      * Get lessons and set the correct borderPane center.
+     *
+     * @since 0.0.1
      */
-    private void setBorderPaneCenter() {
+    private void setBorderPane() {
         switch (lessons) {
-            case BASIC_OPERATIONS -> borderPane.setCenter(lessonSettingsPanes.basicOperationsSettings());
+            case BASIC_OPERATIONS -> {
+                borderPane.setCenter(lessonSettingsPanes.basicOperationsSettings());
+                headerLabel.setText("Basic Operations");
+            }
+            case EXPONENTIATION -> {
+                borderPane.setCenter(lessonSettingsPanes.exponentiationSettings());
+                headerLabel.setText("Exponentiation");
+            }
         }
     }
 
     /**
      * Get the selected checkboxes from the settings pane and add it to the operators ArrayList.
+     *
+     * @since 0.0.1
      */
     private void setOperators() {
         if (lessonSettingsPanes.isAddition()) {
@@ -81,7 +98,7 @@ public class LessonSettingsController {
      * Start the lesson by loading the lesson Scene FXML file and set various variables.
      *
      * @param event Is the button event to replace the current scene (switch Scenes).
-     *
+     * @throws IOException If the FXML file is not found.
      * @since 0.0.1
      */
     public void start(ActionEvent event) throws IOException {
@@ -90,12 +107,13 @@ public class LessonSettingsController {
 
         setOperators();
 
-            LessonController lessonController = fxmlLoader.getController();
-            lessonController.setLesson(lessons);
-            lessonController.setNumberOfRounds(lessonSettingsPanes.getNumberOfRounds());
-            lessonController.setNumberRange(lessonSettingsPanes.getMaxNumber(), lessonSettingsPanes.getMinNumber());
-            lessonController.setOperators(operators);
-            lessonController.setDecimals(lessonSettingsPanes.isDecimals());
+        LessonController lessonController = fxmlLoader.getController();
+        lessonController.setLesson(lessons);
+        lessonController.setNumberOfRounds(lessonSettingsPanes.getNumberOfRounds());
+        lessonController.setNumberRange(lessonSettingsPanes.getMaxNumber(), lessonSettingsPanes.getMinNumber());
+        lessonController.setOperators(operators);
+        lessonController.setDecimals(lessonSettingsPanes.isDecimals());
+        lessonController.setMaxExponent(lessonSettingsPanes.getMaxExponent());
 
         if (lessonController.isOperatorGiven()) {
             lessonController.loadLesson();
@@ -116,9 +134,9 @@ public class LessonSettingsController {
 
     /**
      * Is called when the back button is pushed. Then show the main menu again.
+     *
      * @param event Get an action event from the button to switch the Scene.
      * @throws IOException If the FXML file is not found.
-     *
      * @since 0.0.4
      */
     public void back(ActionEvent event) throws IOException {

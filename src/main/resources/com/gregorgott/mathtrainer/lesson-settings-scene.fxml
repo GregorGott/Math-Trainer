@@ -12,7 +12,7 @@
     <top>
         <HBox spacing="20.0" BorderPane.alignment="CENTER_LEFT">
             <Button cancelButton="true" mnemonicParsing="false" onAction="#back" text="Back"/>
-            <Label text="Basic Operations">
+            <Label fx:id="headerLabel">
                 <font>
                     <Font size="21.0"/>
                 </font>

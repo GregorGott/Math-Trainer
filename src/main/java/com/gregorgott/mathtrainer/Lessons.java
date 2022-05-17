@@ -8,5 +8,6 @@ package com.gregorgott.mathtrainer;
  * @since 2022-05-01
  */
 public enum Lessons {
-    BASIC_OPERATIONS
+    BASIC_OPERATIONS,
+    EXPONENTIATION
 }

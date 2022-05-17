@@ -21,8 +21,8 @@ import java.util.ResourceBundle;
  * In the main menu the user can select between different lessons. Every lesson is a big button in a flow pane.
  *
  * @author GregorGott
- * @version 0.0.2
- * @since 2022-05-15
+ * @version 0.0.3
+ * @since 2022-05-17
  */
 public class MainMenuController implements Initializable {
     @FXML
@@ -31,11 +31,15 @@ public class MainMenuController implements Initializable {
 
     /**
      * Add all lesson buttons to the flow pane.
+     *
+     * @since 0.0.1
      */
     private void createLessonButtons() {
-        Button[] lessonButtons = new Button[1];
-        lessonButtons[0] = newLessonButton("Basic Operations", "Train your math basics with simple questions.",
+        Button[] lessonButtons = new Button[2];
+        lessonButtons[0] = newLessonButton("Basic Operations", "Train their math basics with simple questions.",
                 Lessons.BASIC_OPERATIONS);
+        lessonButtons[1] = newLessonButton("Exponentiation", "Train their knowledge of exponentiation.",
+                Lessons.EXPONENTIATION);
 
         for (Button button : lessonButtons) {
             flowPane.getChildren().add(button);
@@ -47,6 +51,7 @@ public class MainMenuController implements Initializable {
      * If the user clicks on the button load the settings for this lesson.
      *
      * @return The lesson button.
+     * @since 0.0.1
      */
     private Button newLessonButton(String headline, String contentText, Lessons lessons) {
         Label label1 = new Label(headline);
@@ -75,6 +80,8 @@ public class MainMenuController implements Initializable {
 
     /**
      * Loads the lesson settings in the current Scene and transfer the selected lesson.
+     *
+     * @since 0.0.1
      */
     private void loadLessonSettings() {
         try {

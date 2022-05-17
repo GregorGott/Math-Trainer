@@ -13,8 +13,8 @@ import java.util.Random;
  * the return value of getResult().
  *
  * @author GregorGott
- * @version 0.0.2
- * @since 2022-05-07
+ * @version 0.0.3
+ * @since 2022-05-17
  */
 public class LessonPanes {
 
@@ -36,7 +36,6 @@ public class LessonPanes {
      * Returns the result of a question.
      *
      * @return The result of a question as int.
-     *
      * @since 0.0.1
      */
     public double getResult() {
@@ -45,7 +44,6 @@ public class LessonPanes {
 
     /**
      * @return A random operator from the operators ArrayList.
-     *
      * @since 0.0.1
      */
     private Operator getRandomOperator() {
@@ -60,7 +58,6 @@ public class LessonPanes {
      * @param max       The max number.
      * @param decimals  If decimal numbers are allowed.
      * @return A node with a random generated question.
-     *
      * @since 0.0.1
      */
     public Node basicOperationsLesson(ArrayList<Operator> operators, int min, int max, boolean decimals) {
@@ -106,5 +103,23 @@ public class LessonPanes {
         }
 
         return new Label(number1 + " " + operatorAsChar + " " + number2 + " =");
+    }
+
+    /**
+     * Returns a node with a random base and exponent between given numbers
+     *
+     * @param maxBase     An int which gives the max number for the base.
+     * @param maxExponent An int which gives the max number for the exponent.
+     * @return A node with randomly generated question.
+     * @since 0.0.3
+     */
+    public Node exponentiationLesson(int maxBase, int maxExponent) {
+        // Random base and exponent
+        double base = random.nextInt(maxBase);
+        int exponent = random.nextInt((maxExponent + 1) - 1) + 1;
+
+        result = Math.pow(base, exponent);
+
+        return new Label(base + " ^" + exponent + " =");
     }
 }

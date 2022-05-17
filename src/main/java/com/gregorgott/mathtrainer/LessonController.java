@@ -27,8 +27,8 @@ import java.util.*;
  * and a next button at the bottom.
  *
  * @author GregorGott
- * @version 0.0.7
- * @since 2022-05-15
+ * @version 0.0.8
+ * @since 2022-05-17
  */
 public class LessonController implements Initializable {
     private final LessonPanes lessonPanes;
@@ -51,6 +51,7 @@ public class LessonController implements Initializable {
     private int roundCounter;
     private int max;
     private int min;
+    private int exponent;
     private int points;
 
     private boolean questionAnswered;
@@ -60,6 +61,8 @@ public class LessonController implements Initializable {
 
     /**
      * Constructor to initialize variables and set an action for the check button to check the input.
+     *
+     * @since 0.0.1
      */
     public LessonController() {
         lessonPanes = new LessonPanes();
@@ -73,6 +76,11 @@ public class LessonController implements Initializable {
         checkButton.setOnAction(event -> checkInput());
     }
 
+    /**
+     * @return a boolean if a operator is selected.
+     *
+     * @since 0.0.1
+     */
     public boolean isOperatorGiven() {
         if (lessons == Lessons.BASIC_OPERATIONS) {
             return operators.size() > 0;
@@ -85,6 +93,7 @@ public class LessonController implements Initializable {
      * Set the selected lesson to show a correct question.
      *
      * @param lessons The selected lesson.
+     * @since 0.0.1
      */
     public void setLesson(Lessons lessons) {
         this.lessons = lessons;
@@ -94,6 +103,7 @@ public class LessonController implements Initializable {
      * Set number of rounds. This variable controls after how many rounds the lesson ends.
      *
      * @param numberOfRounds The number of selected rounds.
+     * @since 0.0.1
      */
     public void setNumberOfRounds(int numberOfRounds) {
         this.numberOfRounds = numberOfRounds;
@@ -104,6 +114,7 @@ public class LessonController implements Initializable {
      *
      * @param max The max number.
      * @param min The min number.
+     * @since 0.0.1
      */
     public void setNumberRange(int max, int min) {
         this.max = max;
@@ -114,6 +125,7 @@ public class LessonController implements Initializable {
      * Set operators.
      *
      * @param operators An ArrayList with all usable operators.
+     * @since 0.0.1
      */
     public void setOperators(ArrayList<Operator> operators) {
         this.operators = operators;
@@ -130,8 +142,20 @@ public class LessonController implements Initializable {
     }
 
     /**
+     * Set the largest number for the exponent;
+     *
+     * @param exponent The largest number for the exponent as int.
+     * @since 0.0.8
+     */
+    public void setMaxExponent(int exponent) {
+        this.exponent = exponent;
+    }
+
+    /**
      * Load the centre of the border pane with a correct lesson question, a text field and a button to check
      * the entered input.
+     *
+     * @since 0.0.1
      */
     public void loadLesson() {
         setRoundLabel();
@@ -143,6 +167,7 @@ public class LessonController implements Initializable {
 
         switch (lessons) {
             case BASIC_OPERATIONS -> lessonNode = lessonPanes.basicOperationsLesson(operators, min, max, decimals);
+            case EXPONENTIATION -> lessonNode = lessonPanes.exponentiationLesson(max, exponent);
         }
 
         lessonHBox = new HBox(lessonNode, textField, checkButton);
@@ -192,6 +217,8 @@ public class LessonController implements Initializable {
 
     /**
      * Check if the input is correct. If it is, add a point.
+     *
+     * @since 0.0.1
      */
     private void checkInput() {
         // Check if the text field has content
@@ -221,6 +248,8 @@ public class LessonController implements Initializable {
 
     /**
      * Is called when the answer from the user is correct. Show a green checkbox and disable input methods.
+     *
+     * @since 0.0.1
      */
     private void correctAnswer() {
         // Add a green checkbox beside the question
@@ -236,6 +265,8 @@ public class LessonController implements Initializable {
 
     /**
      * Is called when the answer from the user is wrong. Show a red x and disable input methods.
+     *
+     * @since 0.0.1
      */
     private void wrongAnswer() {
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/disable_x.png")));
@@ -249,6 +280,8 @@ public class LessonController implements Initializable {
 
     /**
      * Disable all input methods. Is called after user input.
+     *
+     * @since 0.0.1
      */
     private void disableInput() {
         textField.setDisable(true);
@@ -257,6 +290,8 @@ public class LessonController implements Initializable {
 
     /**
      * Update the round label at the top of the Scene.
+     *
+     * @since 0.0.1
      */
     private void setRoundLabel() {
         roundLabel.setText("Round " + roundCounter + " of " + numberOfRounds);
@@ -264,6 +299,8 @@ public class LessonController implements Initializable {
 
     /**
      * Update the progress bar which shows the round progress.
+     *
+     * @since 0.0.1
      */
     private void setProgressBar() {
         progressBar.setProgress((double) roundCounter / numberOfRounds);
@@ -272,6 +309,8 @@ public class LessonController implements Initializable {
     /**
      * This method is called if the 'Next' button in the Scene is clicked. It resets the textField and loads a
      * new question in the border pane.
+     *
+     * @since 0.0.1
      */
     public void nextQuestion(ActionEvent event) throws IOException {
         if (questionAnswered) {
@@ -316,6 +355,7 @@ public class LessonController implements Initializable {
      * Cancel the lesson and show the settings Scene of the lesson again.
      *
      * @param event Get an ActionEvent of the Button to switch the Scene.
+     * @since 0.0.1
      */
     public void cancelLesson(ActionEvent event) {
         try {

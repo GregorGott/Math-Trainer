@@ -13,8 +13,8 @@ import javafx.scene.layout.VBox;
  * Every lesson has his own settings. These settings are set in this class.
  *
  * @author GregorGott
- * @version 0.0.3
- * @since 2022-05-15
+ * @version 0.0.4
+ * @since 2022-05-17
  */
 public class LessonSettingsPanes {
     private final Spinner<Integer> minNumberSpinner;
@@ -29,6 +29,8 @@ public class LessonSettingsPanes {
 
     /**
      * Initialize the text fields with default values and initialize the checkboxes with text.
+     *
+     * @since 0.0.1
      */
     public LessonSettingsPanes() {
         numberOfRoundsSpinner = new Spinner<>();
@@ -56,6 +58,7 @@ public class LessonSettingsPanes {
 
     /**
      * @return The min number from the minNumberTextField as int.
+     * @since 0.0.1
      */
     public int getMinNumber() {
         return minNumberSpinner.getValue();
@@ -63,6 +66,7 @@ public class LessonSettingsPanes {
 
     /**
      * @return The max number from the maxNumberTextField as int.
+     * @since 0.0.1
      */
     public int getMaxNumber() {
         return maxNumberSpinner.getValue();
@@ -70,13 +74,23 @@ public class LessonSettingsPanes {
 
     /**
      * @return The number of rounds from the numberOfRoundsTextField as int.
+     * @since 0.0.1
      */
     public int getNumberOfRounds() {
         return numberOfRoundsSpinner.getValue();
     }
 
     /**
+     * @return The max exponent number from the maxExponentTextField text field as int.
+     * @since 0.0.4
+     */
+    public int getMaxExponent() {
+        return maxExponentSpinner.getValue();
+    }
+
+    /**
      * @return A boolean if the user selected the additionCheckBox checkbox.
+     * @since 0.0.1
      */
     public boolean isAddition() {
         return additionCheckBox.isSelected();
@@ -84,6 +98,7 @@ public class LessonSettingsPanes {
 
     /**
      * @return A boolean if the user selected the subtractionCheckBox checkbox.
+     * @since 0.0.1
      */
     public boolean isSubtraction() {
         return subtractionCheckBox.isSelected();
@@ -91,6 +106,7 @@ public class LessonSettingsPanes {
 
     /**
      * @return A boolean if the user selected the multiplicationCheckBox checkbox.
+     * @since 0.0.1
      */
     public boolean isMultiplication() {
         return multiplicationCheckBox.isSelected();
@@ -98,6 +114,7 @@ public class LessonSettingsPanes {
 
     /**
      * @return A boolean if the user selected the divisionCheckBox checkbox.
+     * @since 0.0.1
      */
     public boolean isDivision() {
         return divisionCheckBox.isSelected();
@@ -105,6 +122,7 @@ public class LessonSettingsPanes {
 
     /**
      * @return A boolean if the user selected the decimalsCheckBox checkbox.
+     * @since 0.0.2
      */
     public boolean isDecimals() {
         return decimalsCheckBox.isSelected();
@@ -115,6 +133,7 @@ public class LessonSettingsPanes {
      * text field for number of rounds, min number, max number and a checkbox to allow decimals.
      *
      * @return A Node as a VBox with all text fields and checkboxes.
+     * @since 0.0.1
      */
     public Node basicOperationsSettings() {
         Label operatorsLabel = new Label("Operators");
@@ -141,6 +160,29 @@ public class LessonSettingsPanes {
         HBox otherSettingsHBox = new HBox(otherSettingsLabel, decimalsCheckBox);
 
         VBox vBox = new VBox(operatorsHBox, numberOfRoundsHBox, minNumberHBox, maxNumberHBox, otherSettingsHBox);
+        vBox.setSpacing(20);
+        vBox.setPadding(new Insets(20));
+
+        return vBox;
+    }
+
+    /**
+     * The settings node for the exponential lesson. This node contains two HBoxes. One HBox to set the max base number
+     * and the other one to set the max exponent number.
+     *
+     * @return A Node as a VBox with all text fields.
+     * @since 0.0.4
+     */
+    public Node exponentiationSettings() {
+        Label maxBaseLabel = new Label("Max base number:");
+        maxBaseLabel.setPrefWidth(130);
+        HBox maxBaseHBox = new HBox(maxBaseLabel, maxNumberSpinner);
+
+        Label maxExponentLabel = new Label("Max Exponent:");
+        maxExponentLabel.setPrefWidth(130);
+        HBox maxExponentHBox = new HBox(maxExponentLabel, maxExponentSpinner);
+
+        VBox vBox = new VBox(maxBaseHBox, maxExponentHBox);
         vBox.setSpacing(20);
         vBox.setPadding(new Insets(20));
 
