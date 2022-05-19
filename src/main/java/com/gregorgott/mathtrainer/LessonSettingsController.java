@@ -68,6 +68,10 @@ public class LessonSettingsController {
                 borderPane.setCenter(lessonSettingsPanes.exponentiationSettings());
                 headerLabel.setText("Exponentiation");
             }
+            case RECTANGLE_AREA -> {
+                borderPane.setCenter(lessonSettingsPanes.rectangleAreaSettings());
+                headerLabel.setText("Rectangle Area");
+            }
         }
     }
 

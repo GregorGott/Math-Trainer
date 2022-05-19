@@ -35,11 +35,13 @@ public class MainMenuController implements Initializable {
      * @since 0.0.1
      */
     private void createLessonButtons() {
-        Button[] lessonButtons = new Button[2];
+        Button[] lessonButtons = new Button[3];
         lessonButtons[0] = newLessonButton("Basic Operations", "Train their math basics with simple questions.",
                 Lessons.BASIC_OPERATIONS);
         lessonButtons[1] = newLessonButton("Exponentiation", "Train their knowledge of exponentiation.",
                 Lessons.EXPONENTIATION);
+        lessonButtons[2] = newLessonButton("Rectangle Area", "Train their basic geometry knowledge.",
+                Lessons.RECTANGLE_AREA);
 
         for (Button button : lessonButtons) {
             flowPane.getChildren().add(button);

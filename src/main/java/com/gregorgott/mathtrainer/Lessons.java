@@ -9,5 +9,6 @@ package com.gregorgott.mathtrainer;
  */
 public enum Lessons {
     BASIC_OPERATIONS,
-    EXPONENTIATION
+    EXPONENTIATION,
+    RECTANGLE_AREA
 }

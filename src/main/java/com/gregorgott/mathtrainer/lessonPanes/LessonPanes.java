@@ -1,8 +1,13 @@
 package com.gregorgott.mathtrainer.lessonPanes;
 
 import com.gregorgott.mathtrainer.Operator;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,8 +18,8 @@ import java.util.Random;
  * the return value of getResult().
  *
  * @author GregorGott
- * @version 0.0.3
- * @since 2022-05-17
+ * @version 0.0.4
+ * @since 2022-05-19
  */
 public class LessonPanes {
 
@@ -102,15 +107,15 @@ public class LessonPanes {
             }
         }
 
-        return new Label(number1 + " " + operatorAsChar + " " + number2 + " =");
+        return new Label(number1 + " " + operatorAsChar + " " + number2);
     }
 
     /**
      * Returns a node with a random base and exponent between given numbers
      *
-     * @param maxBase     An int which gives the max number for the base.
-     * @param maxExponent An int which gives the max number for the exponent.
-     * @return A node with randomly generated question.
+     * @param maxBase     an int which gives the max number for the base.
+     * @param maxExponent an int which gives the max number for the exponent.
+     * @return a node with randomly generated question.
      * @since 0.0.3
      */
     public Node exponentiationLesson(int maxBase, int maxExponent) {
@@ -120,6 +125,47 @@ public class LessonPanes {
 
         result = Math.pow(base, exponent);
 
-        return new Label(base + " ^" + exponent + " =");
+        return new Label(base + " ^" + exponent);
+    }
+
+    /**
+     * Returns with a random rectangle between zero and the given number
+     *
+     * @param max an int which gives the maximum side length.
+     * @param min an int which gives the minimum side length.
+     * @since 0.0.4
+     */
+    public Node rectangleAreaLesson(int min, int max) {
+        // side1 for rectangle width
+        // side2 for rectangle height
+        int side1 = random.nextInt(max - min) + min;
+        int side2 = random.nextInt(max - min) + min;
+
+        result = side1 * side2;
+
+        // Change rectangle dimensions in dependence of the side lengths
+        Rectangle rectangle;
+        if (side1 < side2) {
+            rectangle = new Rectangle(30, 60);
+        } else {
+            rectangle = new Rectangle(60, 30);
+        }
+
+        rectangle.setFill(Paint.valueOf("#63A4FF"));
+
+        // side1Label for rectangle width
+        Label side1Label = new Label(String.valueOf(side1));
+        // side2Label for rectangle height
+        Label side2Label = new Label(String.valueOf(side2));
+
+        VBox vBox = new VBox(rectangle, side1Label);
+        vBox.setSpacing(10);
+        vBox.setAlignment(Pos.CENTER);
+
+        HBox hBox = new HBox(vBox, side2Label);
+        hBox.setSpacing(10);
+        hBox.setMaxHeight(50);
+
+        return hBox;
     }
 }

@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18"
             fx:controller="com.gregorgott.mathtrainer.LessonController">
@@ -16,6 +17,11 @@
                 <Label fx:id="roundLabel" alignment="CENTER" contentDisplay="TOP" text="Round 1 of 10"/>
             </HBox>
             <ProgressBar fx:id="progressBar" maxWidth="1.7976931348623157E308" progress="0.0"/>
+            <Label fx:id="lessonNameLabel" text="Lesson Name">
+                <font>
+                    <Font size="15.0"/>
+                </font>
+            </Label>
         </VBox>
     </top>
     <padding>

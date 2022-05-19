@@ -27,8 +27,8 @@ import java.util.*;
  * and a next button at the bottom.
  *
  * @author GregorGott
- * @version 0.0.8
- * @since 2022-05-17
+ * @version 0.0.9
+ * @since 2022-05-19
  */
 public class LessonController implements Initializable {
     private final LessonPanes lessonPanes;
@@ -40,6 +40,8 @@ public class LessonController implements Initializable {
     private Label roundLabel;
     @FXML
     private Label timerLabel;
+    @FXML
+    private Label lessonNameLabel;
     @FXML
     private ProgressBar progressBar;
     @FXML
@@ -78,7 +80,6 @@ public class LessonController implements Initializable {
 
     /**
      * @return a boolean if a operator is selected.
-     *
      * @since 0.0.1
      */
     public boolean isOperatorGiven() {
@@ -152,7 +153,7 @@ public class LessonController implements Initializable {
     }
 
     /**
-     * Load the centre of the border pane with a correct lesson question, a text field and a button to check
+     * Load the center of the border pane with a correct lesson question, a text field and a button to check
      * the entered input.
      *
      * @since 0.0.1
@@ -166,11 +167,21 @@ public class LessonController implements Initializable {
         Node lessonNode = null;
 
         switch (lessons) {
-            case BASIC_OPERATIONS -> lessonNode = lessonPanes.basicOperationsLesson(operators, min, max, decimals);
-            case EXPONENTIATION -> lessonNode = lessonPanes.exponentiationLesson(max, exponent);
+            case BASIC_OPERATIONS -> {
+                lessonNode = lessonPanes.basicOperationsLesson(operators, min, max, decimals);
+                lessonNameLabel.setText("Calculate Basic Operations");
+            }
+            case EXPONENTIATION -> {
+                lessonNode = lessonPanes.exponentiationLesson(max, exponent);
+                lessonNameLabel.setText("Calculate Exponentiation");
+            }
+            case RECTANGLE_AREA -> {
+                lessonNode = lessonPanes.rectangleAreaLesson(min, max);
+                lessonNameLabel.setText("Calculate Rectangle Area");
+            }
         }
 
-        lessonHBox = new HBox(lessonNode, textField, checkButton);
+        lessonHBox = new HBox(lessonNode, new Label("="), textField, checkButton);
         lessonHBox.setAlignment(Pos.CENTER);
         lessonHBox.setSpacing(15);
 

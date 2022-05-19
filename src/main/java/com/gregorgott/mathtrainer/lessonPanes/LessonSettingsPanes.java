@@ -13,8 +13,8 @@ import javafx.scene.layout.VBox;
  * Every lesson has his own settings. These settings are set in this class.
  *
  * @author GregorGott
- * @version 0.0.4
- * @since 2022-05-17
+ * @version 0.0.5
+ * @since 2022-05-19
  */
 public class LessonSettingsPanes {
     private final Spinner<Integer> minNumberSpinner;
@@ -132,7 +132,7 @@ public class LessonSettingsPanes {
      * The settings node for the basic operations' lesson. This Node contains checkboxes for all types of operators,
      * text field for number of rounds, min number, max number and a checkbox to allow decimals.
      *
-     * @return A Node as a VBox with all text fields and checkboxes.
+     * @return A Node as a VBox with all spinners and checkboxes.
      * @since 0.0.1
      */
     public Node basicOperationsSettings() {
@@ -170,7 +170,7 @@ public class LessonSettingsPanes {
      * The settings node for the exponential lesson. This node contains two HBoxes. One HBox to set the max base number
      * and the other one to set the max exponent number.
      *
-     * @return A Node as a VBox with all text fields.
+     * @return A Node as a VBox with all spinners.
      * @since 0.0.4
      */
     public Node exponentiationSettings() {
@@ -183,6 +183,29 @@ public class LessonSettingsPanes {
         HBox maxExponentHBox = new HBox(maxExponentLabel, maxExponentSpinner);
 
         VBox vBox = new VBox(maxBaseHBox, maxExponentHBox);
+        vBox.setSpacing(20);
+        vBox.setPadding(new Insets(20));
+
+        return vBox;
+    }
+
+    /**
+     * The settings node fo the rectangle area lesson. This node contains two spinners for the min side length
+     * and the max side length.
+     *
+     * @return A Node as a VBox with all spinners.
+     * @since 0.0.5
+     */
+    public Node rectangleAreaSettings() {
+        Label minSideLengthLabel = new Label("Min side length:");
+        minSideLengthLabel.setPrefWidth(130);
+        HBox minSideLengthHBox = new HBox(minSideLengthLabel, minNumberSpinner);
+
+        Label maxSideLengthLabel = new Label("Max side length:");
+        maxSideLengthLabel.setPrefWidth(130);
+        HBox maxSideLengthHBox = new HBox(maxSideLengthLabel, maxNumberSpinner);
+
+        VBox vBox = new VBox(minSideLengthHBox, maxSideLengthHBox);
         vBox.setSpacing(20);
         vBox.setPadding(new Insets(20));
 
