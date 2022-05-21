@@ -38,6 +38,12 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.gregorgott</groupId>
+            <artifactId>mdialogwindows</artifactId>
+            <version>0.0.3</version>
+        </dependency>
     </dependencies>
 
     <build>

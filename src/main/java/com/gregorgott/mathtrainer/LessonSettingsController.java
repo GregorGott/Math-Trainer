@@ -1,13 +1,13 @@
 package com.gregorgott.mathtrainer;
 
 import com.gregorgott.mathtrainer.lessonPanes.LessonSettingsPanes;
+import com.gregorgott.mdialogwindows.MAlert;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -20,8 +20,8 @@ import java.util.ArrayList;
  * The content of the Scene varies between the different types of lessons.
  *
  * @author GregorGott
- * @version 0.0.5
- * @since 2022-05-17
+ * @version 0.0.6
+ * @since 2022-05-21
  */
 public class LessonSettingsController {
     private final LessonSettingsPanes lessonSettingsPanes;
@@ -127,12 +127,13 @@ public class LessonSettingsController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
         } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Math Trainer");
-            alert.setHeaderText("Please select operators.");
-            alert.setContentText("Math Trainer can not start a lesson when you do not select operators.");
+            MAlert mAlert = new MAlert(MAlert.MAlertType.INFORMATION, "Math Trainer", borderPane.getScene().getWindow());
+            mAlert.setAlertStyle(MAlert.MAlertStyle.LIGHT_ROUNDED);
+            mAlert.setHeadline("Please select operators.");
+            mAlert.setContentText("Math Trainer can not start a lesson when you do not select operators.");
+            mAlert.addButton("OK", x -> mAlert.closeAlert(), true);
 
-            alert.show();
+            mAlert.getStage().showAndWait();
         }
     }
 

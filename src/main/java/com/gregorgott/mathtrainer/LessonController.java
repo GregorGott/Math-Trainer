@@ -1,6 +1,7 @@
 package com.gregorgott.mathtrainer;
 
 import com.gregorgott.mathtrainer.lessonPanes.LessonPanes;
+import com.gregorgott.mdialogwindows.MAlert;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,7 +11,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -27,13 +31,14 @@ import java.util.*;
  * and a next button at the bottom.
  *
  * @author GregorGott
- * @version 0.0.9
- * @since 2022-05-19
+ * @version 0.0.10
+ * @since 2022-05-21
  */
 public class LessonController implements Initializable {
     private final LessonPanes lessonPanes;
     private final TextField textField;
     private final Button checkButton;
+    private LocalTime timerTimer;
     @FXML
     private BorderPane borderPane;
     @FXML
@@ -48,14 +53,12 @@ public class LessonController implements Initializable {
     private Button nextButton;
     private HBox lessonHBox;
     private Lessons lessons;
-
     private int numberOfRounds;
     private int roundCounter;
     private int max;
     private int min;
     private int exponent;
     private int points;
-
     private boolean questionAnswered;
     private boolean decimals;
 
@@ -195,9 +198,6 @@ public class LessonController implements Initializable {
      */
     private void startTimer() {
         TimerTask timerTask = new TimerTask() {
-
-            LocalTime timerTimer;
-
             int sec = 0;
             int min = 0;
             int hrs = 0;
@@ -247,12 +247,13 @@ public class LessonController implements Initializable {
                     wrongAnswer();
                 }
             } catch (NumberFormatException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Please enter a valid number.");
-                alert.setContentText("If you want to write decimals, please use dots instead of commas.");
+                MAlert mAlert = new MAlert(MAlert.MAlertType.ERROR, "Error", borderPane.getScene().getWindow());
+                mAlert.setAlertStyle(MAlert.MAlertStyle.LIGHT_ROUNDED);
+                mAlert.setHeadline("Please enter a valid number.");
+                mAlert.setContentText("If you want to write decimals, please use dots instead of commas.");
+                mAlert.addButton("OK", x -> mAlert.closeAlert(), true);
 
-                alert.show();
+                mAlert.getStage().showAndWait();
             }
         }
     }
@@ -354,7 +355,7 @@ public class LessonController implements Initializable {
         Parent root = fxmlLoader.load();
 
         ResultController resultController = fxmlLoader.getController();
-        resultController.setPoints(points, numberOfRounds - points);
+        resultController.setPoints(points, numberOfRounds - points, timerTimer);
 
         Scene scene = new Scene(root);
 
