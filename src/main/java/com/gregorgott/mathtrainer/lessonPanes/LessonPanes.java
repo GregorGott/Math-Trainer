@@ -13,16 +13,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Every lesson has his own node. These nodes are defined in this class.
- * This class also calculates the result, that the class which initialize this class only needs to compare a value with
- * the return value of getResult().
+ * Every lesson has its node. These nodes are defined in this class. This class also calculates the correct result of
+ * the given question.
  *
  * @author GregorGott
  * @version 0.0.4
  * @since 2022-05-19
  */
 public class LessonPanes {
-
     private final Random random;
     private ArrayList<Operator> operators;
     private double result;
@@ -56,13 +54,13 @@ public class LessonPanes {
     }
 
     /**
-     * Returns a lesson node with a random generated question.
+     * Returns a lesson node with a randomly generated question.
      *
      * @param operators The operators that may be used.
      * @param min       The min number.
      * @param max       The max number.
      * @param decimals  If decimal numbers are allowed.
-     * @return A node with a random generated question.
+     * @return A node with a randomly generated question.
      * @since 0.0.1
      */
     public Node basicOperationsLesson(ArrayList<Operator> operators, int min, int max, boolean decimals) {
@@ -115,7 +113,7 @@ public class LessonPanes {
      *
      * @param maxBase     an int which gives the max number for the base.
      * @param maxExponent an int which gives the max number for the exponent.
-     * @return a node with randomly generated question.
+     * @return a node with randomly generated questions.
      * @since 0.0.3
      */
     public Node exponentiationLesson(int maxBase, int maxExponent) {

@@ -5,10 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18"
-            fx:controller="com.gregorgott.mathtrainer.LessonController">
+            minWidth="-Infinity" prefHeight="400.0" prefWidth="670.0" stylesheets="@stylesheet.css"
+            xmlns="http://javafx.com/javafx/18" fx:controller="com.gregorgott.mathtrainer.LessonController">
     <top>
-        <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+        <VBox id="lesson-top-bar" alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
                 <Insets/>
             </BorderPane.margin>
@@ -22,6 +22,9 @@
                     <Font size="15.0"/>
                 </font>
             </Label>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
         </VBox>
     </top>
     <padding>

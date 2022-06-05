@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18"
-            fx:controller="com.gregorgott.mathtrainer.ResultController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="670.0" stylesheets="@stylesheet.css"
+            xmlns="http://javafx.com/javafx/18" fx:controller="com.gregorgott.mathtrainer.ResultController">
     <bottom>
         <Button mnemonicParsing="false" onAction="#backToMenu" text="Back to main menu" BorderPane.alignment="CENTER"/>
     </bottom>

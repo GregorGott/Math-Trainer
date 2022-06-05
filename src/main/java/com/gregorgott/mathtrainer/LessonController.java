@@ -82,7 +82,7 @@ public class LessonController implements Initializable {
     }
 
     /**
-     * @return a boolean if a operator is selected.
+     * @return a boolean if an operator is selected.
      * @since 0.0.1
      */
     public boolean isOperatorGiven() {
@@ -148,7 +148,7 @@ public class LessonController implements Initializable {
     /**
      * Set the largest number for the exponent;
      *
-     * @param exponent The largest number for the exponent as int.
+     * @param exponent The largest number for the exponent is int.
      * @since 0.0.8
      */
     public void setMaxExponent(int exponent) {
@@ -156,7 +156,7 @@ public class LessonController implements Initializable {
     }
 
     /**
-     * Load the center of the border pane with a correct lesson question, a text field and a button to check
+     * Load the centre of the border pane with a correct lesson question, a text field and a button to check
      * the entered input.
      *
      * @since 0.0.1
@@ -192,7 +192,7 @@ public class LessonController implements Initializable {
     }
 
     /**
-     * Show a timer in the top of the Scene with seconds, minutes and hours.
+     * Show a timer at the top of the Scene with seconds, minutes and hours.
      *
      * @since 0.0.5
      */

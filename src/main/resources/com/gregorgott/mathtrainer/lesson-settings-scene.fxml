@@ -7,8 +7,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18"
-            fx:controller="com.gregorgott.mathtrainer.LessonSettingsController">
+            minWidth="-Infinity" prefHeight="400.0" prefWidth="670.0" stylesheets="@stylesheet.css"
+            xmlns="http://javafx.com/javafx/18" fx:controller="com.gregorgott.mathtrainer.LessonSettingsController">
     <top>
         <HBox spacing="20.0" BorderPane.alignment="CENTER_LEFT">
             <Button cancelButton="true" mnemonicParsing="false" onAction="#back" text="Back"/>

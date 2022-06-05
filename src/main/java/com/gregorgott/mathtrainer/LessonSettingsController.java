@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * A Scene in which the user can change various settings, e.g. number of rounds, max number and min number.
+ * A Scene in which the user can change various settings, e.g. the number of rounds, max number and min number.
  * The content of the Scene varies between the different types of lessons.
  *
  * @author GregorGott
@@ -43,7 +43,7 @@ public class LessonSettingsController {
     }
 
     /**
-     * Set the lesson to show the correct settings pane in the center.
+     * Set the lesson to show the correct settings pane in the centre.
      *
      * @param lessons Is the selected lesson in the main menu.
      * @since 0.0.1
@@ -54,7 +54,7 @@ public class LessonSettingsController {
     }
 
     /**
-     * Get lessons and set the correct borderPane center.
+     * Get lessons and set the correct borderPane centre.
      *
      * @since 0.0.1
      */
@@ -76,7 +76,7 @@ public class LessonSettingsController {
     }
 
     /**
-     * Get the selected checkboxes from the settings pane and add it to the operators ArrayList.
+     * Get the selected checkboxes from the settings pane and add them to the operators ArrayList.
      *
      * @since 0.0.1
      */
@@ -99,7 +99,7 @@ public class LessonSettingsController {
     }
 
     /**
-     * Start the lesson by loading the lesson Scene FXML file and set various variables.
+     * Start the lesson by loading the lesson Scene FXML file and setting various variables.
      *
      * @param event Is the button event to replace the current scene (switch Scenes).
      * @throws IOException If the FXML file is not found.

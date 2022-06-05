@@ -36,11 +36,11 @@ public class MainMenuController implements Initializable {
      */
     private void createLessonButtons() {
         Button[] lessonButtons = new Button[3];
-        lessonButtons[0] = newLessonButton("Basic Operations", "Train their math basics with simple questions.",
+        lessonButtons[0] = newLessonButton("Basic Operations", "Train your math basic knowledge.",
                 Lessons.BASIC_OPERATIONS);
-        lessonButtons[1] = newLessonButton("Exponentiation", "Train their knowledge of exponentiation.",
+        lessonButtons[1] = newLessonButton("Exponentiation", "Train your knowledge of exponentiation.",
                 Lessons.EXPONENTIATION);
-        lessonButtons[2] = newLessonButton("Rectangle Area", "Train their basic geometry knowledge.",
+        lessonButtons[2] = newLessonButton("Rectangle Area", "Train your basic geometry knowledge.",
                 Lessons.RECTANGLE_AREA);
 
         for (Button button : lessonButtons) {
@@ -49,15 +49,17 @@ public class MainMenuController implements Initializable {
     }
 
     /**
-     * A button for basic operations with a title and content text.
-     * If the user clicks on the button load the settings for this lesson.
+     * Creates a new lesson button with a headline and content text.
      *
-     * @return The lesson button.
-     * @since 0.0.1
+     * @param headline    headline of the lesson.
+     * @param contentText content text.
+     * @param lessons     the lesson that is started after pressing.
+     * @return a full functional lesson button.
+     * @since 0.0.3
      */
     private Button newLessonButton(String headline, String contentText, Lessons lessons) {
         Label label1 = new Label(headline);
-        label1.setFont(new Font(label1.getFont().getFamily(), 18));
+        label1.setFont(new Font(label1.getFont().getFamily(), 17));
         label1.setWrapText(true);
         Label label2 = new Label(contentText);
         label2.setWrapText(true);
@@ -66,10 +68,12 @@ public class MainMenuController implements Initializable {
         vBox.setPadding(new Insets(10));
         vBox.setSpacing(15);
 
-        Button button = new Button();
-        int BUTTON_WIDTH = 150;
-        button.setPrefWidth(BUTTON_WIDTH);
         int BUTTON_HEIGHT = 150;
+        int BUTTON_WIDTH = 150;
+
+        Button button = new Button();
+        button.setId("lesson-button");
+        button.setPrefWidth(BUTTON_WIDTH);
         button.setPrefHeight(BUTTON_HEIGHT);
         button.setGraphic(vBox);
         button.setOnAction(event -> {
@@ -81,7 +85,7 @@ public class MainMenuController implements Initializable {
     }
 
     /**
-     * Loads the lesson settings in the current Scene and transfer the selected lesson.
+     * Loads the lesson settings in the current Scene and transfers the selected lesson.
      *
      * @since 0.0.1
      */

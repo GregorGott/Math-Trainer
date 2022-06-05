@@ -10,13 +10,14 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalTime;
 
 /**
  * This Scene shows a result Scene with the points, mistakes and a grade.
  *
  * @author GregorGott
- * @version 0.0.1
- * @since 2022-05-04
+ * @version 0.0.2
+ * @since 2022-05-21
  */
 public class ResultController {
     @FXML
@@ -25,27 +26,32 @@ public class ResultController {
     private Label mistakesLabel;
     @FXML
     private Label gradeLabel;
+    @FXML
+    private Label timeLabel;
 
     private int points;
     private int mistakes;
 
     /**
-     * Set the points, mistakes and add those values to the labels.
-     * @param points    Number of reached points.
-     * @param mistakes  Number of mistakes.
+     * Set the points, and mistakes and add those values to the labels.
+     *
+     * @param points   Number of reached points.
+     * @param mistakes Number of mistakes.
      * @since 0.0.1
      */
-    public void setPoints(int points, int mistakes) {
+    public void setPoints(int points, int mistakes, LocalTime time) {
         this.points = points;
         this.mistakes = mistakes;
 
-        setPointsLabel();
+        pointsLabel.setText(getPoints());
         mistakesLabel.setText("Mistakes: " + mistakes);
         gradeLabel.setText("Grade: " + calculateGrade());
+        timeLabel.setText("Needed time: " + time);
     }
 
     /**
      * Calculate a grade from A to F.
+     *
      * @return A String with the grade (A - F).
      * @since 0.0.1
      */
@@ -73,18 +79,21 @@ public class ResultController {
      *
      * @since 0.0.1
      */
-    private void setPointsLabel() {
-        if (points > 1) {
-            pointsLabel.setText(points + " Points.");
+    private String getPoints() {
+        if (points == 0) {
+            return "No Points reached.";
+        } else if (points == 1) {
+            return points + " Point.";
         } else {
-            pointsLabel.setText(points + " Point.");
+            return points + " Points.";
         }
     }
 
     /**
      * This action is called when the "Back to menu" button is pushed. It shows the main menu again.
-     * @param event         An ActionEvent to load the Scene on it.
-     * @throws IOException  Exception when FXML file is not loadable.
+     *
+     * @param event An ActionEvent to load the Scene on it.
+     * @throws IOException Exception when FXML file is not loadable.
      * @since 0.0.1
      */
     public void backToMenu(ActionEvent event) throws IOException {

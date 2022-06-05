@@ -10,7 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * Every lesson has his own settings. These settings are set in this class.
+ * Every lesson has its settings. These settings are set in this class.
  *
  * @author GregorGott
  * @version 0.0.5
@@ -21,6 +21,7 @@ public class LessonSettingsPanes {
     private final Spinner<Integer> maxNumberSpinner;
     private final Spinner<Integer> numberOfRoundsSpinner;
     private final Spinner<Integer> maxExponentSpinner;
+    private final HBox numberOfRoundsHBox;
     private final CheckBox additionCheckBox;
     private final CheckBox subtractionCheckBox;
     private final CheckBox multiplicationCheckBox;
@@ -48,6 +49,10 @@ public class LessonSettingsPanes {
         maxExponentSpinner = new Spinner<>();
         maxExponentSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 2));
         maxExponentSpinner.setEditable(true);
+
+        Label numberOfRoundsLabel = new Label("Number of rounds");
+        numberOfRoundsLabel.setPrefWidth(130);
+        numberOfRoundsHBox = new HBox(numberOfRoundsLabel, numberOfRoundsSpinner);
 
         additionCheckBox = new CheckBox("Addition");
         subtractionCheckBox = new CheckBox("Subtraction");
@@ -129,8 +134,8 @@ public class LessonSettingsPanes {
     }
 
     /**
-     * The settings node for the basic operations' lesson. This Node contains checkboxes for all types of operators,
-     * text field for number of rounds, min number, max number and a checkbox to allow decimals.
+     * The settings node for the basic operations lesson. This Node contains checkboxes for all types of operators,
+     * text field for the number of rounds, min number, max number and a checkbox to allow decimals.
      *
      * @return A Node as a VBox with all spinners and checkboxes.
      * @since 0.0.1
@@ -142,10 +147,6 @@ public class LessonSettingsPanes {
                 divisionCheckBox);
         operatorsCheckBoxesHBox.setSpacing(10);
         HBox operatorsHBox = new HBox(operatorsLabel, operatorsCheckBoxesHBox);
-
-        Label numberOfRoundsLabel = new Label("Number of rounds");
-        numberOfRoundsLabel.setPrefWidth(130);
-        HBox numberOfRoundsHBox = new HBox(numberOfRoundsLabel, numberOfRoundsSpinner);
 
         Label minNumberLabel = new Label("Min number");
         minNumberLabel.setPrefWidth(130);
@@ -182,7 +183,7 @@ public class LessonSettingsPanes {
         maxExponentLabel.setPrefWidth(130);
         HBox maxExponentHBox = new HBox(maxExponentLabel, maxExponentSpinner);
 
-        VBox vBox = new VBox(maxBaseHBox, maxExponentHBox);
+        VBox vBox = new VBox(numberOfRoundsHBox, maxBaseHBox, maxExponentHBox);
         vBox.setSpacing(20);
         vBox.setPadding(new Insets(20));
 
@@ -190,7 +191,7 @@ public class LessonSettingsPanes {
     }
 
     /**
-     * The settings node fo the rectangle area lesson. This node contains two spinners for the min side length
+     * The settings node for the rectangle area lesson. This node contains two spinners for the min side length
      * and the max side length.
      *
      * @return A Node as a VBox with all spinners.
@@ -205,7 +206,7 @@ public class LessonSettingsPanes {
         maxSideLengthLabel.setPrefWidth(130);
         HBox maxSideLengthHBox = new HBox(maxSideLengthLabel, maxNumberSpinner);
 
-        VBox vBox = new VBox(minSideLengthHBox, maxSideLengthHBox);
+        VBox vBox = new VBox(numberOfRoundsHBox, minSideLengthHBox, maxSideLengthHBox);
         vBox.setSpacing(20);
         vBox.setPadding(new Insets(20));
 

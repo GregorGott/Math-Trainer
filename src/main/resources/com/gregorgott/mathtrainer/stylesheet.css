@@ -1,0 +1,87 @@
+/* Button global */
+.button {
+    -fx-background-color: #cccccc;
+    -fx-background-radius: 5;
+}
+
+.button:hover {
+    -fx-background-color: #b3b3b3;
+}
+
+.button:armed {
+    -fx-background-color: #999999;
+}
+
+/* Check box global */
+.check-box .box {
+    -fx-background-color: #cccccc;
+}
+
+.check-box .mark {
+    -fx-shape: "M9.575 17.85 4.05 12.325 5.4 10.975 9.575 15.175 18.625 6.125 19.95 7.475Z";
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #4d804d;
+}
+
+/* Text field global */
+.text-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent;
+}
+
+/* Spinner global */
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-background-color: #cccccc;
+}
+
+.spinner .increment-arrow-button:hover,
+.spinner .decrement-arrow-button:hover {
+    -fx-background-color: #b3b3b3;
+}
+
+.spinner .increment-arrow-button:pressed,
+.spinner .decrement-arrow-button:pressed {
+    -fx-background-color: #999999;
+}
+
+/* Progress bar */
+.progress-bar {
+    -fx-background-color: #cccccc;
+    -fx-background-radius: 4;
+}
+
+.progress-bar .track{
+    -fx-background-insets: 20;
+    -fx-background-radius: 6;
+}
+
+.progress-bar .bar {
+    -fx-background-color: #ff8080;
+    -fx-background-radius: 4;
+}
+
+/* Main Menu */
+#main-menu-header {
+    -fx-background-color: #e7e7e7;
+    -fx-background-radius: 10;
+    -fx-font-family: Helvetica;
+    -fx-font-size: 17;
+}
+
+#lesson-button {
+    -fx-background-color: linear-gradient(from 0% 0% to 50% 100%, #cccccc, #ff8080);
+    -fx-background-radius: 5;
+}
+
+#lesson-button:hover {
+    -fx-background-color: linear-gradient(from 0% 0% to 50% 100%, #cccccc, #e64d4d);
+}
+
+/* Lesson top bar*/
+#lesson-top-bar {
+    -fx-background-color: #e6e6e6;
+    -fx-background-radius: 10;
+}
