@@ -1,21 +1,14 @@
 # Math Trainer
 
-<div style="text-align: center">
-
-![Download - Windows](https://img.shields.io/badge/Website_Blog-Coming_Soon-red?style=for-the-badge)
-
-</div>
-
+![Website Blog - Coming Soon](https://img.shields.io/badge/Website_Blog-Coming_Soon-red?style=for-the-badge)
+  
 ![Thumbnail](images/thumbnail.png)
 
 > Math trainer is a small math training application with currently three available lessons.
 
-<div style="text-align: center">
+[![Download - Windows](https://img.shields.io/badge/Download-Coming_Soon-334db3?logo=Windows&style=for-the-badge)]()
+[![Download - macOS](https://img.shields.io/badge/Download-Coming_Soon-334db3?logo=apple&style=for-the-badge)]()
 
-[![Download - Windows](https://img.shields.io/badge/Download-Coming_Soon-334db3?logo=Windows&style=for-the-badge)](https://)
-[![Download - macOS](https://img.shields.io/badge/Download-Coming_Soon-334db3?logo=apple&style=for-the-badge)](https://)
-
-</div>
 
 ## Table of Contents
 
@@ -42,10 +35,11 @@ Mac, Windows and Linux based operating systems.
 | Rectangle Area   | Train your basic geometry knowledge.    | ✅        |
 
 ## Image Gallery
-
-<img src="images/preview-main-menu.png" alt="Preview Main Menu" style="width: 49%">
-<img src="images/preview-lesson-settings.png" alt="Preview Main Menu" style="width: 49%">
-<img src="images/preview-lesson.png" alt="Preview Main Menu" style="width: 49%">
+<p>
+  <img src="images/preview-main-menu.png" alt="Preview Main Menu" style="width: 40%">
+  <img src="images/preview-lesson-settings.png" alt="Preview Main Menu" style="width: 40%">
+  <img src="images/preview-lesson.png" alt="Preview Main Menu" style="width: 40%">
+</p>
 
 ## License & Developer Information
 ### Developer Information
