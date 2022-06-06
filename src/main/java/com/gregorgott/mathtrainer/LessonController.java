@@ -370,22 +370,33 @@ public class LessonController implements Initializable {
      * @since 0.0.1
      */
     public void cancelLesson(ActionEvent event) {
-        try {
-            LessonSettingsController lessonSettingsController;
+        MAlert cancelAlert = new MAlert(MAlert.MAlertType.CONFIRMATION, "Cancel Lesson",
+                ((Node) event.getSource()).getScene().getWindow());
+        cancelAlert.setAlertStyle(MAlert.MAlertStyle.LIGHT_ROUNDED);
+        cancelAlert.setHeadline("You can do it!");
+        cancelAlert.setContentText("Do you really want to cancel this lesson. You have made it right away.");
+        cancelAlert.addButton("I continue", x -> cancelAlert.closeAlert(), true);
+        cancelAlert.addButton("Cancel Lesson", x -> {
+            try {
+                LessonSettingsController lessonSettingsController;
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("lesson-settings-scene.fxml"));
-            Parent root = fxmlLoader.load();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("lesson-settings-scene.fxml"));
+                Parent root = fxmlLoader.load();
 
-            lessonSettingsController = fxmlLoader.getController();
-            lessonSettingsController.setLesson(lessons);
+                lessonSettingsController = fxmlLoader.getController();
+                lessonSettingsController.setLesson(lessons);
 
-            Scene scene = new Scene(root);
+                Scene scene = new Scene(root);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            cancelAlert.closeAlert();
+        }, false);
+        cancelAlert.getStage().show();
     }
 
     @Override
