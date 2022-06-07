@@ -12,16 +12,22 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Properties;
 
 /**
  * A Scene in which the user can change various settings, e.g. the number of rounds, max number and min number.
  * The content of the Scene varies between the different types of lessons.
  *
  * @author GregorGott
- * @version 0.0.6
- * @since 2022-05-21
+ * @version 0.0.7
+ * @since 2022-06-07
  */
 public class LessonSettingsController {
     private final LessonSettingsPanes lessonSettingsPanes;
@@ -135,6 +141,43 @@ public class LessonSettingsController {
 
             mAlert.getStage().showAndWait();
         }
+    }
+
+    /**
+     * The help button in the right bottom corner opens a small alert with a quick help. This quick help is
+     * written in the <code>lesson_help.properties</code>. In this alert is also a wiki button, which opens
+     * a wikipedia article about this topic.
+     *
+     * @throws IOException if the properties file could not be found.
+     * @since 0.0.7
+     */
+    public void help() throws IOException {
+        Properties properties = new Properties();
+        properties.load(new InputStreamReader(Objects.requireNonNull(
+                Main.class.getResourceAsStream("other/lesson_help.properties"))));
+
+        String modeAsString;
+
+        switch (lessons) {
+            case BASIC_OPERATIONS -> modeAsString = "basic operations";
+            case EXPONENTIATION -> modeAsString = "exponentiation";
+            case RECTANGLE_AREA -> modeAsString = "rectangle area";
+            default -> modeAsString = "unknown";
+        }
+
+        MAlert mAlert = new MAlert(MAlert.MAlertType.INFORMATION, "Help");
+        mAlert.setAlertStyle(MAlert.MAlertStyle.LIGHT_ROUNDED);
+        mAlert.setHeadline("Help for " + modeAsString + ".");
+        mAlert.setContentText(properties.getProperty(lessons + "_EXPLANATION"));
+        mAlert.addButton("I need more help", x -> {
+            try {
+                Desktop.getDesktop().browse(new URI(properties.getProperty(lessons + "_WIKI")));
+            } catch (IOException | URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }, false);
+        mAlert.addButton("Thanks", x -> mAlert.closeAlert(), true);
+        mAlert.getStage().show();
     }
 
     /**

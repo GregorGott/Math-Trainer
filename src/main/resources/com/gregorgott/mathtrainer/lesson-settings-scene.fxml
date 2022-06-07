@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
+
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="400.0" prefWidth="670.0" stylesheets="@stylesheet.css"
             xmlns="http://javafx.com/javafx/18" fx:controller="com.gregorgott.mathtrainer.LessonSettingsController">
@@ -23,7 +24,9 @@
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
     </padding>
     <bottom>
-        <Button defaultButton="true" mnemonicParsing="false" onAction="#start" text="Start"
-                BorderPane.alignment="BOTTOM_RIGHT"/>
+        <HBox alignment="CENTER_RIGHT" spacing="20.0" BorderPane.alignment="BOTTOM_RIGHT">
+            <Button mnemonicParsing="false" onAction="#help" text="Help"/>
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#start" text="Start"/>
+        </HBox>
     </bottom>
 </BorderPane>
