@@ -1,6 +1,7 @@
 package com.gregorgott.mathtrainer.lessonPanes;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -13,20 +14,21 @@ import javafx.scene.layout.VBox;
  * Every lesson has its settings. These settings are set in this class.
  *
  * @author GregorGott
- * @version 0.0.5
- * @since 2022-05-19
+ * @version 0.1.0
+ * @since 2022-06-21
  */
 public class LessonSettingsPanes {
     private final Spinner<Integer> minNumberSpinner;
     private final Spinner<Integer> maxNumberSpinner;
     private final Spinner<Integer> numberOfRoundsSpinner;
     private final Spinner<Integer> maxExponentSpinner;
-    private final HBox numberOfRoundsHBox;
+    private final Node numberOfRoundsNode;
     private final CheckBox additionCheckBox;
     private final CheckBox subtractionCheckBox;
     private final CheckBox multiplicationCheckBox;
     private final CheckBox divisionCheckBox;
     private final CheckBox decimalsCheckBox;
+    private final CheckBox countdownCheckBox;
 
     /**
      * Initialize the text fields with default values and initialize the checkboxes with text.
@@ -34,35 +36,38 @@ public class LessonSettingsPanes {
      * @since 0.0.1
      */
     public LessonSettingsPanes() {
-        numberOfRoundsSpinner = new Spinner<>();
-        numberOfRoundsSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 20));
-        numberOfRoundsSpinner.setEditable(true);
-
-        minNumberSpinner = new Spinner<>();
-        minNumberSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-Integer.MAX_VALUE, Integer.MAX_VALUE, 0));
-        minNumberSpinner.setEditable(true);
-
-        maxNumberSpinner = new Spinner<>();
-        maxNumberSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-Integer.MAX_VALUE, Integer.MAX_VALUE, 100));
-        maxNumberSpinner.setEditable(true);
-
-        maxExponentSpinner = new Spinner<>();
-        maxExponentSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 2));
-        maxExponentSpinner.setEditable(true);
-
-        Label numberOfRoundsLabel = new Label("Number of rounds");
-        numberOfRoundsLabel.setPrefWidth(130);
-        numberOfRoundsHBox = new HBox(numberOfRoundsLabel, numberOfRoundsSpinner);
-
+        numberOfRoundsSpinner = newIntegerSpinner(1, 100, 20);
+        minNumberSpinner = newIntegerSpinner(Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+        maxNumberSpinner = newIntegerSpinner(Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+        maxExponentSpinner = newIntegerSpinner(0, 10, 2);
+        numberOfRoundsNode = createSettingNode("Number of rounds:", numberOfRoundsSpinner);
         additionCheckBox = new CheckBox("Addition");
         subtractionCheckBox = new CheckBox("Subtraction");
         multiplicationCheckBox = new CheckBox("Multiplication");
         divisionCheckBox = new CheckBox("Division");
         decimalsCheckBox = new CheckBox("Decimals");
+        countdownCheckBox = new CheckBox("Play against the time");
     }
 
     /**
-     * @return The min number from the minNumberTextField as int.
+     * Creates a new integer spinner with min, max and initial value.
+     *
+     * @param min          the min value as int.
+     * @param max          the max value as int.
+     * @param initialValue the initial value as int.
+     * @return an editable integer spinner.
+     * @since 0.1.0
+     */
+    private Spinner<Integer> newIntegerSpinner(int min, int max, int initialValue) {
+        Spinner<Integer> spinner = new Spinner<>();
+        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, initialValue));
+        spinner.setEditable(true);
+
+        return spinner;
+    }
+
+    /**
+     * @return the min number from the minNumberTextField as int.
      * @since 0.0.1
      */
     public int getMinNumber() {
@@ -70,7 +75,7 @@ public class LessonSettingsPanes {
     }
 
     /**
-     * @return The max number from the maxNumberTextField as int.
+     * @return the max number from the maxNumberTextField as int.
      * @since 0.0.1
      */
     public int getMaxNumber() {
@@ -78,7 +83,7 @@ public class LessonSettingsPanes {
     }
 
     /**
-     * @return The number of rounds from the numberOfRoundsTextField as int.
+     * @return the number of rounds from the numberOfRoundsTextField as int.
      * @since 0.0.1
      */
     public int getNumberOfRounds() {
@@ -86,7 +91,7 @@ public class LessonSettingsPanes {
     }
 
     /**
-     * @return The max exponent number from the maxExponentTextField text field as int.
+     * @return the max exponent number from the maxExponentTextField text field as int.
      * @since 0.0.4
      */
     public int getMaxExponent() {
@@ -94,7 +99,7 @@ public class LessonSettingsPanes {
     }
 
     /**
-     * @return A boolean if the user selected the additionCheckBox checkbox.
+     * @return a boolean if the user selected the additionCheckBox checkbox.
      * @since 0.0.1
      */
     public boolean isAddition() {
@@ -102,7 +107,7 @@ public class LessonSettingsPanes {
     }
 
     /**
-     * @return A boolean if the user selected the subtractionCheckBox checkbox.
+     * @return a boolean if the user selected the subtractionCheckBox checkbox.
      * @since 0.0.1
      */
     public boolean isSubtraction() {
@@ -110,7 +115,7 @@ public class LessonSettingsPanes {
     }
 
     /**
-     * @return A boolean if the user selected the multiplicationCheckBox checkbox.
+     * @return a boolean if the user selected the multiplicationCheckBox checkbox.
      * @since 0.0.1
      */
     public boolean isMultiplication() {
@@ -118,7 +123,7 @@ public class LessonSettingsPanes {
     }
 
     /**
-     * @return A boolean if the user selected the divisionCheckBox checkbox.
+     * @return a boolean if the user selected the divisionCheckBox checkbox.
      * @since 0.0.1
      */
     public boolean isDivision() {
@@ -126,7 +131,7 @@ public class LessonSettingsPanes {
     }
 
     /**
-     * @return A boolean if the user selected the decimalsCheckBox checkbox.
+     * @return a boolean if the user selected the decimalsCheckBox checkbox.
      * @since 0.0.2
      */
     public boolean isDecimals() {
@@ -134,33 +139,60 @@ public class LessonSettingsPanes {
     }
 
     /**
-     * The settings node for the basic operations lesson. This Node contains checkboxes for all types of operators,
+     * @return a boolean if the countdown game type is chosen.
+     */
+    public boolean isCountdown() {
+        return countdownCheckBox.isSelected();
+    }
+
+    /**
+     * Creates a node with a label and the belonging node.
+     *
+     * @param text           the belonging setting label text.
+     * @param settingElement the Node which is displayed next to the setting label.
+     * @return a node with label and a node.
+     * @since 0.1.0
+     */
+    private Node createSettingNode(String text, Node settingElement) {
+        Label label = new Label(text);
+        label.setPrefWidth(130);
+        HBox hBox = new HBox(label, settingElement);
+        hBox.setAlignment(Pos.CENTER_LEFT);
+
+        return hBox;
+    }
+
+    /**
+     * The countdown mode has his own checkbox to enable/disable it. Because it can be used in every lesson, the
+     * checkbox can simply add with this method.
+     *
+     * @return a node with the label 'Other settings' and a checkbox.
+     * @since 0.1.0
+     */
+    private Node getCountdownSettingNode() {
+        return createSettingNode("Other settings:", countdownCheckBox);
+    }
+
+    /**
+     * The settings node for the basic operations' lesson. This Node contains checkboxes for all types of operators,
      * text field for the number of rounds, min number, max number and a checkbox to allow decimals.
      *
      * @return A Node as a VBox with all spinners and checkboxes.
      * @since 0.0.1
      */
     public Node basicOperationsSettings() {
-        Label operatorsLabel = new Label("Operators");
-        operatorsLabel.setPrefWidth(130);
         HBox operatorsCheckBoxesHBox = new HBox(additionCheckBox, subtractionCheckBox, multiplicationCheckBox,
                 divisionCheckBox);
         operatorsCheckBoxesHBox.setSpacing(10);
-        HBox operatorsHBox = new HBox(operatorsLabel, operatorsCheckBoxesHBox);
+        Node operatorsNode = createSettingNode("Operators:", operatorsCheckBoxesHBox);
+        Node minNumberNode = createSettingNode("Min number:", minNumberSpinner);
+        Node maxNumberNode = createSettingNode("Max number:", maxNumberSpinner);
 
-        Label minNumberLabel = new Label("Min number");
-        minNumberLabel.setPrefWidth(130);
-        HBox minNumberHBox = new HBox(minNumberLabel, minNumberSpinner);
+        VBox otherSettingsVBox = new VBox(decimalsCheckBox, countdownCheckBox);
+        otherSettingsVBox.setSpacing(10);
+        Node otherSettingsNode = createSettingNode("Other settings:", otherSettingsVBox);
 
-        Label maxNumberLabel = new Label("Max number");
-        maxNumberLabel.setPrefWidth(130);
-        HBox maxNumberHBox = new HBox(maxNumberLabel, maxNumberSpinner);
-
-        Label otherSettingsLabel = new Label("Other settings");
-        otherSettingsLabel.setPrefWidth(130);
-        HBox otherSettingsHBox = new HBox(otherSettingsLabel, decimalsCheckBox);
-
-        VBox vBox = new VBox(operatorsHBox, numberOfRoundsHBox, minNumberHBox, maxNumberHBox, otherSettingsHBox);
+        VBox vBox = new VBox(operatorsNode, numberOfRoundsNode, minNumberNode, maxNumberNode, otherSettingsNode);
         vBox.setSpacing(20);
         vBox.setPadding(new Insets(20));
 
@@ -175,15 +207,10 @@ public class LessonSettingsPanes {
      * @since 0.0.4
      */
     public Node exponentiationSettings() {
-        Label maxBaseLabel = new Label("Max base number:");
-        maxBaseLabel.setPrefWidth(130);
-        HBox maxBaseHBox = new HBox(maxBaseLabel, maxNumberSpinner);
+        Node maxBaseNode = createSettingNode("Max base number:", maxNumberSpinner);
+        Node maxExponentNode = createSettingNode("Max exponent:", maxExponentSpinner);
 
-        Label maxExponentLabel = new Label("Max Exponent:");
-        maxExponentLabel.setPrefWidth(130);
-        HBox maxExponentHBox = new HBox(maxExponentLabel, maxExponentSpinner);
-
-        VBox vBox = new VBox(numberOfRoundsHBox, maxBaseHBox, maxExponentHBox);
+        VBox vBox = new VBox(numberOfRoundsNode, maxBaseNode, maxExponentNode, getCountdownSettingNode());
         vBox.setSpacing(20);
         vBox.setPadding(new Insets(20));
 
@@ -198,15 +225,10 @@ public class LessonSettingsPanes {
      * @since 0.0.5
      */
     public Node rectangleAreaSettings() {
-        Label minSideLengthLabel = new Label("Min side length:");
-        minSideLengthLabel.setPrefWidth(130);
-        HBox minSideLengthHBox = new HBox(minSideLengthLabel, minNumberSpinner);
+        Node minSideLengthNode = createSettingNode("Min side length:", minNumberSpinner);
+        Node maxSideLengthNode = createSettingNode("Max side length:", maxNumberSpinner);
 
-        Label maxSideLengthLabel = new Label("Max side length:");
-        maxSideLengthLabel.setPrefWidth(130);
-        HBox maxSideLengthHBox = new HBox(maxSideLengthLabel, maxNumberSpinner);
-
-        VBox vBox = new VBox(numberOfRoundsHBox, minSideLengthHBox, maxSideLengthHBox);
+        VBox vBox = new VBox(numberOfRoundsNode, minSideLengthNode, maxSideLengthNode, getCountdownSettingNode());
         vBox.setSpacing(20);
         vBox.setPadding(new Insets(20));
 
