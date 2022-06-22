@@ -123,9 +123,10 @@ public class LessonSettingsController {
         lessonController.setNumberRange(lessonSettingsPanes.getMaxNumber(), lessonSettingsPanes.getMinNumber());
         lessonController.setOperators(operators);
         lessonController.setDecimals(lessonSettingsPanes.isDecimals());
+        lessonController.setCountdownGame(lessonSettingsPanes.isCountdown(), lessonSettingsPanes.getSeconds());
         lessonController.setMaxExponent(lessonSettingsPanes.getMaxExponent());
 
-        if (lessonController.isOperatorGiven()) {
+        if (lessons != Lessons.BASIC_OPERATIONS || operators.size() > 0) {
             lessonController.loadLesson();
 
             Scene scene = new Scene(root);

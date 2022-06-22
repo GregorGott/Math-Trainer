@@ -14,8 +14,8 @@ import javafx.scene.layout.VBox;
  * Every lesson has its settings. These settings are set in this class.
  *
  * @author GregorGott
- * @version 0.1.0
- * @since 2022-06-21
+ * @version 0.1.1
+ * @since 2022-06-22
  */
 public class LessonSettingsPanes {
     private final Spinner<Integer> minNumberSpinner;
@@ -28,7 +28,8 @@ public class LessonSettingsPanes {
     private final CheckBox multiplicationCheckBox;
     private final CheckBox divisionCheckBox;
     private final CheckBox decimalsCheckBox;
-    private final CheckBox countdownCheckBox;
+    private Spinner<Integer> countdownTimeSpinner;
+    private CheckBox countdownCheckBox;
 
     /**
      * Initialize the text fields with default values and initialize the checkboxes with text.
@@ -38,7 +39,7 @@ public class LessonSettingsPanes {
     public LessonSettingsPanes() {
         numberOfRoundsSpinner = newIntegerSpinner(1, 100, 20);
         minNumberSpinner = newIntegerSpinner(Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
-        maxNumberSpinner = newIntegerSpinner(Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+        maxNumberSpinner = newIntegerSpinner(Integer.MIN_VALUE, Integer.MAX_VALUE, 100);
         maxExponentSpinner = newIntegerSpinner(0, 10, 2);
         numberOfRoundsNode = createSettingNode("Number of rounds:", numberOfRoundsSpinner);
         additionCheckBox = new CheckBox("Addition");
@@ -46,15 +47,14 @@ public class LessonSettingsPanes {
         multiplicationCheckBox = new CheckBox("Multiplication");
         divisionCheckBox = new CheckBox("Division");
         decimalsCheckBox = new CheckBox("Decimals");
-        countdownCheckBox = new CheckBox("Play against the time");
     }
 
     /**
      * Creates a new integer spinner with min, max and initial value.
      *
-     * @param min          the min value as int.
-     * @param max          the max value as int.
-     * @param initialValue the initial value as int.
+     * @param min          the min value as an int.
+     * @param max          the max value as an int.
+     * @param initialValue the initial value as an int.
      * @return an editable integer spinner.
      * @since 0.1.0
      */
@@ -145,12 +145,16 @@ public class LessonSettingsPanes {
         return countdownCheckBox.isSelected();
     }
 
+    public int getSeconds() {
+        return countdownTimeSpinner.getValue();
+    }
+
     /**
      * Creates a node with a label and the belonging node.
      *
      * @param text           the belonging setting label text.
      * @param settingElement the Node which is displayed next to the setting label.
-     * @return a node with label and a node.
+     * @return a node with a label and a node.
      * @since 0.1.0
      */
     private Node createSettingNode(String text, Node settingElement) {
@@ -163,18 +167,27 @@ public class LessonSettingsPanes {
     }
 
     /**
-     * The countdown mode has his own checkbox to enable/disable it. Because it can be used in every lesson, the
-     * checkbox can simply add with this method.
+     * Initializes an integer spinner with a label and a checkbox. This method is used to create an input option
+     * for the user to enter how much time the user has for each question.
      *
-     * @return a node with the label 'Other settings' and a checkbox.
+     * @return an integer spinner with a label and a checkbox.
      * @since 0.1.0
      */
     private Node getCountdownSettingNode() {
-        return createSettingNode("Other settings:", countdownCheckBox);
+        countdownTimeSpinner = newIntegerSpinner(5, 600, 20);
+        Node spinnerNode =  createSettingNode("Seconds:", countdownTimeSpinner);
+        spinnerNode.setDisable(true);
+
+        countdownCheckBox = new CheckBox("Play against the time");
+        countdownCheckBox.setOnAction(x -> spinnerNode.setDisable(!countdownCheckBox.isSelected()));
+
+        VBox vBox = new VBox(countdownCheckBox, spinnerNode);
+        vBox.setSpacing(5);
+        return vBox;
     }
 
     /**
-     * The settings node for the basic operations' lesson. This Node contains checkboxes for all types of operators,
+     * The settings node for the basic operations lesson. This Node contains checkboxes for all types of operators,
      * text field for the number of rounds, min number, max number and a checkbox to allow decimals.
      *
      * @return A Node as a VBox with all spinners and checkboxes.
@@ -188,7 +201,7 @@ public class LessonSettingsPanes {
         Node minNumberNode = createSettingNode("Min number:", minNumberSpinner);
         Node maxNumberNode = createSettingNode("Max number:", maxNumberSpinner);
 
-        VBox otherSettingsVBox = new VBox(decimalsCheckBox, countdownCheckBox);
+        VBox otherSettingsVBox = new VBox(decimalsCheckBox, getCountdownSettingNode());
         otherSettingsVBox.setSpacing(10);
         Node otherSettingsNode = createSettingNode("Other settings:", otherSettingsVBox);
 
@@ -209,8 +222,9 @@ public class LessonSettingsPanes {
     public Node exponentiationSettings() {
         Node maxBaseNode = createSettingNode("Max base number:", maxNumberSpinner);
         Node maxExponentNode = createSettingNode("Max exponent:", maxExponentSpinner);
+        Node otherSettingsNode = createSettingNode("Other settings:", getCountdownSettingNode());
 
-        VBox vBox = new VBox(numberOfRoundsNode, maxBaseNode, maxExponentNode, getCountdownSettingNode());
+        VBox vBox = new VBox(numberOfRoundsNode, maxBaseNode, maxExponentNode, otherSettingsNode);
         vBox.setSpacing(20);
         vBox.setPadding(new Insets(20));
 
@@ -227,8 +241,9 @@ public class LessonSettingsPanes {
     public Node rectangleAreaSettings() {
         Node minSideLengthNode = createSettingNode("Min side length:", minNumberSpinner);
         Node maxSideLengthNode = createSettingNode("Max side length:", maxNumberSpinner);
+        Node otherSettingsNode = createSettingNode("Other settings:", getCountdownSettingNode());
 
-        VBox vBox = new VBox(numberOfRoundsNode, minSideLengthNode, maxSideLengthNode, getCountdownSettingNode());
+        VBox vBox = new VBox(numberOfRoundsNode, minSideLengthNode, maxSideLengthNode, otherSettingsNode);
         vBox.setSpacing(20);
         vBox.setPadding(new Insets(20));
 

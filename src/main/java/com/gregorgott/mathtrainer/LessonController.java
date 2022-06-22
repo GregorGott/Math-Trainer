@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -22,7 +21,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -31,14 +29,15 @@ import java.util.*;
  * and a next button at the bottom.
  *
  * @author GregorGott
- * @version 0.0.10
- * @since 2022-05-21
+ * @version 0.0.11
+ * @since 2022-06-22
  */
-public class LessonController implements Initializable {
+public class LessonController {
     private final LessonPanes lessonPanes;
     private final TextField textField;
     private final Button checkButton;
     private LocalTime timerTimer;
+    private TimerTask timerTask;
     @FXML
     private BorderPane borderPane;
     @FXML
@@ -59,8 +58,10 @@ public class LessonController implements Initializable {
     private int min;
     private int exponent;
     private int points;
+    private int countdownSeconds;
     private boolean questionAnswered;
     private boolean decimals;
+    private boolean countdownGame;
 
     private ArrayList<Operator> operators;
 
@@ -72,25 +73,13 @@ public class LessonController implements Initializable {
     public LessonController() {
         lessonPanes = new LessonPanes();
         textField = new TextField();
+        timerTimer = LocalTime.MIN;
 
-        questionAnswered = false;
         roundCounter = 1;
         points = 0;
 
         checkButton = new Button("Check");
         checkButton.setOnAction(event -> checkInput());
-    }
-
-    /**
-     * @return a boolean if an operator is selected.
-     * @since 0.0.1
-     */
-    public boolean isOperatorGiven() {
-        if (lessons == Lessons.BASIC_OPERATIONS) {
-            return operators.size() > 0;
-        } else {
-            return true;
-        }
     }
 
     /**
@@ -126,7 +115,7 @@ public class LessonController implements Initializable {
     }
 
     /**
-     * Set operators.
+     * The operators addition, subtraction, multiplication and division can be overhanded by this method.
      *
      * @param operators An ArrayList with all usable operators.
      * @since 0.0.1
@@ -156,6 +145,17 @@ public class LessonController implements Initializable {
     }
 
     /**
+     * Sets if the user enabled countdown game and how much time the user has for each question.
+     *
+     * @param b a boolean if the game uses the countdown mode.
+     * @since 0.0.11
+     */
+    public void setCountdownGame(boolean b, int seconds) {
+        this.countdownGame = b;
+        this.countdownSeconds = seconds;
+    }
+
+    /**
      * Load the centre of the border pane with a correct lesson question, a text field and a button to check
      * the entered input.
      *
@@ -164,6 +164,9 @@ public class LessonController implements Initializable {
     public void loadLesson() {
         setRoundLabel();
         setProgressBar();
+        startTimer();
+
+        questionAnswered = false;
         nextButton.setDisable(true);
 
         // The correct lesson question as node
@@ -192,38 +195,42 @@ public class LessonController implements Initializable {
     }
 
     /**
-     * Show a timer at the top of the Scene with seconds, minutes and hours.
+     * If the <code>countdownGame</code> is true, a number in the top of the Stage counts down until null
+     * is reached.
+     * Else a timer at the top of the Scene with seconds, minutes and hours is showing.
      *
      * @since 0.0.5
      */
     private void startTimer() {
-        TimerTask timerTask = new TimerTask() {
-            int sec = 0;
-            int min = 0;
-            int hrs = 0;
-
-            @Override
-            public void run() {
-                sec++;
-
-                if (sec == 60) {
-                    min++;
-                    sec = 0;
-                }
-
-                if (min == 60) {
-                    hrs++;
-                    min = 0;
-                }
-
-                timerTimer = LocalTime.of(hrs, min, sec);
-
-                Platform.runLater(() -> timerLabel.setText("Timer: " + timerTimer));
-            }
-        };
-
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(timerTask, 0, 1000);
+
+        if (countdownGame) {
+            timerTask = new TimerTask() {
+                int sec = countdownSeconds;
+
+                @Override
+                public void run() {
+                    sec--;
+
+                    if (sec < 0) {
+                        Platform.runLater(() -> checkInput());
+                    } else {
+                        Platform.runLater(() -> timerLabel.setText("Left seconds: " + sec));
+                    }
+                }
+            };
+            timer.scheduleAtFixedRate(timerTask, 0, 1000);
+        } else {
+            timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    timerTimer = timerTimer.plusSeconds(1);
+
+                    Platform.runLater(() -> timerLabel.setText("Timer: " + timerTimer));
+                }
+            };
+            timer.scheduleAtFixedRate(timerTask, 0, 1000);
+        }
     }
 
     /**
@@ -232,19 +239,22 @@ public class LessonController implements Initializable {
      * @since 0.0.1
      */
     private void checkInput() {
-        // Check if the text field has content
-        if (!textField.getText().isEmpty()) {
-            questionAnswered = true;
-            nextButton.setDisable(false);
+        timerTask.cancel();
+        questionAnswered = true;
+        nextButton.setDisable(false);
 
-            // Get the text of the text field as int
-            // Check if the input is the correct result
+        // Check if the text field has content
+        if (textField.getText().isEmpty()) {
+            showResultImage("images/disable_x.png");
+        } else {
+            // Get the text of the text field as double
             try {
+                // Check if the input is the correct result
                 if (Double.parseDouble(textField.getText()) == lessonPanes.getResult()) {
                     points++;
-                    correctAnswer();
+                    showResultImage("images/check_box_green.png");
                 } else {
-                    wrongAnswer();
+                    showResultImage("images/disable_x.png");
                 }
             } catch (NumberFormatException e) {
                 MAlert mAlert = new MAlert(MAlert.MAlertType.ERROR, "Error", borderPane.getScene().getWindow());
@@ -263,31 +273,16 @@ public class LessonController implements Initializable {
      *
      * @since 0.0.1
      */
-    private void correctAnswer() {
+    private void showResultImage(String pathToImage) {
         // Add a green checkbox beside the question
         Image image = new Image(Objects.requireNonNull(
-                getClass().getResourceAsStream("images/check_box_green.png")));
+                getClass().getResourceAsStream(pathToImage)));
 
         ImageView imageView = new ImageView(image);
 
         lessonHBox.getChildren().add(imageView);
 
-        disableInput();
-    }
-
-    /**
-     * Is called when the answer from the user is wrong. Show a red x and disable input methods.
-     *
-     * @since 0.0.1
-     */
-    private void wrongAnswer() {
-        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/disable_x.png")));
-
-        ImageView imageView = new ImageView(image);
-
-        lessonHBox.getChildren().add(imageView);
-
-        disableInput();
+        disableInputFields();
     }
 
     /**
@@ -295,7 +290,7 @@ public class LessonController implements Initializable {
      *
      * @since 0.0.1
      */
-    private void disableInput() {
+    private void disableInputFields() {
         textField.setDisable(true);
         checkButton.setDisable(true);
     }
@@ -330,15 +325,12 @@ public class LessonController implements Initializable {
                 showResults(event);
             } else {
                 roundCounter++;
-                setRoundLabel();
-                setProgressBar();
 
                 textField.setText("");
-                loadLesson();
-
-                questionAnswered = false;
                 textField.setDisable(false);
                 checkButton.setDisable(false);
+
+                loadLesson();
             }
         }
     }
@@ -370,13 +362,13 @@ public class LessonController implements Initializable {
      * @since 0.0.1
      */
     public void cancelLesson(ActionEvent event) {
-        MAlert cancelAlert = new MAlert(MAlert.MAlertType.CONFIRMATION, "Cancel Lesson",
+        MAlert cancelAlert = new MAlert(MAlert.MAlertType.CONFIRMATION, "Cancel lesson",
                 ((Node) event.getSource()).getScene().getWindow());
         cancelAlert.setAlertStyle(MAlert.MAlertStyle.LIGHT_ROUNDED);
         cancelAlert.setHeadline("You can do it!");
         cancelAlert.setContentText("Do you really want to cancel this lesson. You have made it right away.");
         cancelAlert.addButton("I continue", x -> cancelAlert.closeAlert(), true);
-        cancelAlert.addButton("Cancel Lesson", x -> {
+        cancelAlert.addButton("Cancel lesson", x -> {
             try {
                 LessonSettingsController lessonSettingsController;
 
@@ -397,10 +389,5 @@ public class LessonController implements Initializable {
             cancelAlert.closeAlert();
         }, false);
         cancelAlert.getStage().show();
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        startTimer();
     }
 }
